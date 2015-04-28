@@ -20,6 +20,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+   // some changes
+
 #ifndef AUTHOR_H
 #define AUTHOR_H
 
