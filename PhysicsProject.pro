@@ -59,7 +59,6 @@ HEADERS += src/mainwindow.h \
            src/caction.h \
            src/cmodel.h \
            src/main.h \
-    src/manual.h \
     src/Storage.h \
     src/WorkDock.h
 
