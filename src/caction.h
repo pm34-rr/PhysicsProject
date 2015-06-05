@@ -26,8 +26,6 @@
 
 //НЕОБХОДИМЫЕ КОНСТАНТЫ
 
-const double g = 9.81;
-const double e = 2.718281828459045235;
 const double pi1 = 3.1415926535897932384;
 
 class Caction
