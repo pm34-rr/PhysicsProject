@@ -1,16 +1,15 @@
-#include <QtWidgets>
-
-#include "main.h"
 #include "mainwindow.h"
+
+#include "WorkDock.h"
+#include "Storage.h"
+#include "main.h"
 #include "ui_mainwindow.h"
 #include "caction.h"
 
-#include "Storage.h"
-
-
+#include <QtWidgets>
 #include <QFont>
 #include <QFontDatabase>
-
+#include <QtWidgets/QBoxLayout>
 
 // Фикс шрифтов (замена стандартных на Tahoma, если стандартные не поддерживают кириллицу)
 template<typename T> void fix_fonts(T * widget)
@@ -32,186 +31,116 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
 	ui( new Ui::MainWindow )
 {
-	theStorage.setNumOfSprings( 3 );
-	ui->setupUi(this);
-    setCentralWidget(ui->widget);
-    qtmr = new QTimer(this);
-    connect(qtmr, SIGNAL(timeout()), ui->widget ,SLOT(actiontime()));
-    connect(qtmr, SIGNAL(timeout()), ui->widget ,SLOT(updateGL()));
-    connect(qtmr, SIGNAL(timeout()), this,SLOT(disptime()));
-    ui->lcdNumber->setDecMode();
-    ui->lcdNumber->setSegmentStyle(QLCDNumber::Flat);    
-
-    //дефолтные значения(пример)
+	//дефолтные значения(пример)
 	int n = theStorage.getNumOfSprings() - 1;
-	for ( int i = 0; i < n; i++)
-	{
+	for ( int i = 0; i < n; i++) {
 		m_action[i].m = 0.01;
-		m_action[i].A0 = 0.3;
+		m_action[i].A0 = 0;
 		m_action[i].x = 0.0;
-		m_action[i].k = 50;
-		m_action[i].r = 3;
+		m_action[i].x0 = 0.0;
+		m_action[i].k = 25;
 	}
 
-    ui->horizontalSlider->setValue(10);//масса груза m
-	ui->horizontalSlider_2->setValue(80);//начальное смещение
-    ui->horizontalSlider_3->setValue(50); //коэффициент жесткости k  
-    ui->horizontalSlider_5->setValue(100);//скорость эксперимента
-    buttonflag = io = false;
-    vfps = 40;
-    ui->horizontalSlider_6->setValue(vfps);
+	ui->setupUi( this );
+	_workDock = new WorkDock;
+	_mainWidget = new QWidget;
 
-    // Фикс шрифтов
-    fix_fonts(this);
-    fix_fonts(ui->menuBar);
-    fix_fonts(ui->menu);
-    fix_fonts(ui->menu_2);
-    fix_fonts(ui->groupBox);
-    fix_fonts(ui->groupBox_2);
-    fix_fonts(ui->label);
-    fix_fonts(ui->label_2);
-    fix_fonts(ui->label_3);
-    fix_fonts(ui->label_4);
-    fix_fonts(ui->label_5);
-    fix_fonts(ui->label_6);
-    fix_fonts(ui->label_9);
-    fix_fonts(ui->label_10);
-    fix_fonts(ui->label_11);
-    fix_fonts(ui->label_12);
-    fix_fonts(ui->label_13);
-    fix_fonts(ui->label_14);
-    fix_fonts(ui->pushButton);
-    fix_fonts(ui->pushButton_2);
+	QHBoxLayout * mainLyt = new QHBoxLayout;
+	mainLyt->addWidget( ui->widget );
+	mainLyt->addWidget( _workDock );
+	_mainWidget->setLayout( mainLyt );
+
+	setCentralWidget( _mainWidget );
+	qtmr = new QTimer( this );
+	connect( qtmr, &QTimer::timeout, ui->widget, &Cscene3D::actiontime );
+	connect( qtmr, &QTimer::timeout, ui->widget, &Cscene3D::updateGL );
+	connect( qtmr, &QTimer::timeout, this, &MainWindow::displayTime );
+
+	connect( _workDock, &WorkDock::experimentStarted, this, &MainWindow::startExperiment );
+	connect( _workDock, &WorkDock::experimentReset, this, &MainWindow::resetExperiment );
+	connect( _workDock, &WorkDock::experimentStopped, this, &MainWindow::stopExperiment );
+
+	connect( _workDock, &WorkDock::massChanged, this, &MainWindow::changeMass );
+	connect( _workDock, &WorkDock::kChanged, this, &MainWindow::changeK );
+	connect( _workDock, &WorkDock::shiftChanged, this, &MainWindow::changeShift );
+	connect( _workDock, &WorkDock::speedChanged, this, &MainWindow::changeSpeed );
+	connect( _workDock, &WorkDock::qualityChanged, this, &MainWindow::changeQuality );
+
 }
 
 MainWindow::~MainWindow()
 {
-    delete ui;
+	delete ui;
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::startExperiment()
 {
-    //кнопка старт/пауза
-    io = false;
-	if( !buttonflag )
-    {
-		disableSliders( true );
-        ui->pushButton->setText(trUtf8("Стоп"));
-        buttonflag = true;
-        qtmr->start(vfps);
-        go = true;
-    }
-    else
-    {       
-        buttonflag = false;
-        ui->pushButton->setText(trUtf8("Старт"));
-        qtmr->stop();
-        go = false;
-    }
+	ui->widget->prepareBodies();
+	qtmr->start( vfps );
 }
 
-void MainWindow::on_pushButton_2_clicked()
+void MainWindow::stopExperiment()
 {
-    //кнопка стоп
-    qtmr->stop();
-    go = false;
+	qtmr->stop();
+}
 
-	disableSliders( false );
-    ui->pushButton->setEnabled(true);
-    tot = 0;
-    io = false; 
-    if(buttonflag)
-        ui->pushButton->click();
+void MainWindow::resetExperiment()
+{
+	qtmr->stop();
 	int n = theStorage.getNumOfSprings() - 1;
 	for ( int i = 0; i < n; i++ )
-        m_action[i].x = 0;
-    ui->lcdNumber->display(0);
-    ui->widget->updateGL();
-}
-
-void MainWindow::on_horizontalSlider_valueChanged(int value)
-{
-    //масса груза m
-    double v1;
-	v1 = value / 1000.0;
-    v1 = ((int)(v1*100.0))/100.0;
-	int n = theStorage.getNumOfSprings() - 1;
-	for( int i = 0; i < n; i++ )
-        m_action[i].m = v1;
-    QString st;
-	st = QString::number( v1 );
-	ui->label_2->setText( st );
-	for( int i = 0; i < n; i++)
-        m_action[i].InitBall();
+		m_action[i].x = 0;
 	ui->widget->updateGL();
 }
 
-void MainWindow::on_horizontalSlider_2_valueChanged(int value)
+void MainWindow::changeMass( float mass )
 {
-    //начальное смещение
-    double v1;
-    v1 = value/100.0 - 0.8;
-	if( fabs( v1 ) < 0.001 )
-        v1 =0.0;
-    m_action[0].A0 = m_action[0].x = v1;
-    m_action[0].InitBall();
-    QString st;
-    st = QString::number(v1);
-    ui->label_4->setText(st);
-    ui->widget->updateGL();
+	int n = theStorage.getNumOfSprings() - 1;
+	for( int i = 0; i < n; i++ )
+		m_action[i].m = mass;
+	for( int i = 0; i < n; i++)
+		m_action[i].InitBall();
+	ui->widget->updateGL();
 }
 
-void MainWindow::on_horizontalSlider_3_valueChanged(int value)
+void MainWindow::changeK( int k )
 {
-    //коэффициент жесткости k
 	int n = theStorage.getNumOfSprings() - 1;
 	for ( int i = 0; i < n; i++ ) {
-        m_action[i].k = value;
-        m_action[i].InitBall();
-    }
-    QString st;
-    st = QString::number(value);
-    ui->label_6->setText(st);
-    ui->widget->updateGL();
+		m_action[i].k = k;
+		m_action[i].InitBall();
+	}
+	ui->widget->updateGL();
 }
 
-
-
-void MainWindow::on_horizontalSlider_5_valueChanged(int value)
+void MainWindow::changeShift( int i, float x )
 {
-    //скорость эксперимента
-    QString st;
-    st = QString::number(value);
-    ui->label_10->setText(st);
+	m_action[i].x0 = x;
+	m_action[i].InitBall();
+	ui->widget->updateGL();
+}
+
+void MainWindow::changeSpeed( int s )
+{
 	int n = theStorage.getNumOfSprings() - 1;
 	for ( int i = 0; i < n; i++ ) {
-		m_action[i].ktime = value / 100.0;
-        m_action[i].InitBall();
-    }
-    ui->widget->updateGL();   
+		m_action[i].ktime = s / 100.0;
+		m_action[i].InitBall();
+	}
+	ui->widget->updateGL();
 }
 
-
-void MainWindow::on_horizontalSlider_6_valueChanged(int value)
+void MainWindow::changeQuality( int q , bool started )
 {
-    //качество картинки
-    vfps = value;
-    qtmr-> stop();
-    if(go)
-        qtmr->start(vfps);
+	vfps = q;
+	qtmr-> stop();
+	if( started )
+		qtmr->start( started );
 }
 
-void MainWindow::disptime()
+void MainWindow::displayTime()
 {
     QString str;
 	str.setNum( tot / 1000.0, 10, 2);
-	ui->lcdNumber->display( str );
+	_workDock->setTime( str );
 }
-
-void MainWindow::disableSliders(bool dicision)
-{
-	ui->horizontalSlider->setEnabled( !dicision );
-	ui->horizontalSlider_2->setEnabled( !dicision );
-	ui->horizontalSlider_3->setEnabled( !dicision );
-}
-

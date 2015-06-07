@@ -51,16 +51,18 @@ SOURCES += src/main.cpp \
            src/caction.cpp \
            src/cmodel.cpp \
            src/cmilkshapemodel.cpp \
-    src/Storage.cpp \
-    src/WorkDock.cpp
+           src/Storage.cpp \
+           src/WorkDock.cpp \
+    src/Calculations.cpp
 
 HEADERS += src/mainwindow.h \
            src/cscene3d.h \
            src/caction.h \
            src/cmodel.h \
            src/main.h \
-    src/Storage.h \
-    src/WorkDock.h
+           src/Storage.h \
+           src/WorkDock.h \
+    src/Calculations.h
 
 FORMS   += \
            src/mainwindow.ui

@@ -52,6 +52,7 @@ protected:
 
 public:
     Cscene3D(QWidget* parent = 0);
+	void prepareBodies();
 
 public slots:
     void actiontime();

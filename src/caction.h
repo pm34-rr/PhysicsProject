@@ -1,27 +1,5 @@
-/* 
-   Copyright (C) 2011-2013,
-        Mikhail Alexandrov  <alexandroff.m@gmail.com>
-        Andrey Kurochkin    <andy-717@yandex.ru>
-        Peter Zhigalov      <peter.zhigalov@gmail.com>
+#pragma once
 
-   This file is part of the `pendulum' program.
-
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
-
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-
-   You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
-#ifndef CACTION_H_
-#define CACTION_H_
 #include <cmath>
 
 //НЕОБХОДИМЫЕ КОНСТАНТЫ
@@ -32,7 +10,6 @@ class Caction
 {
 public:
     /* ************************************СПЕЦИФИКАЦИЯ*************************************
-    *  r.............КОЭФФИЦИЕНТ СОПРОТИВЛЕНИЯ                                             *
     *  m.............МАССА МАЯТНИКА                                                        *
     *  k.............КОЭФФИЦИЕНТ ЖЕСТКОСТИ ПРУЖИНЫ                                         *
     *  w.............ЧАСТОТА                                                               *
@@ -51,7 +28,7 @@ public:
 	*  E.............ЭНЕРГИЯ В ДАННОЕ ВРЕМЯ
 	*  x0............НАЧАЛЬНОЕ ПОЛОЖЕНИЕ ГРУЗА
     ***************************************************************************************/
-    double r, m, k, fita, w, w0, sigma, A0, x, T, AtimeT, Q, ldekrem, oldx, oldtime, v, E0, E;
+	double m, k, fita, w, w0, sigma, A0, x, T, AtimeT, Q, ldekrem, oldx, oldtime, v, E0, E;
 	float x0;
 	Caction();
     ~Caction();	                //Деструктор
@@ -60,5 +37,3 @@ public:
 
     double ktime, length;
 };
-
-#endif

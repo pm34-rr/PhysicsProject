@@ -1,5 +1,7 @@
 #include "Storage.h"
 
+#include "caction.h"
+
 Storage * Storage::_storage = nullptr;
 
 Storage & Storage::getInstance()
@@ -11,5 +13,5 @@ Storage & Storage::getInstance()
 
 Storage::Storage()
 {
-
+	_numOfSprings = 3;
 }
