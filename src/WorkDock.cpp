@@ -320,6 +320,11 @@ void WorkDock::experimentStarts()
 void WorkDock::experimentResets()
 {
 	// TODO: make all widgets to default values
+	int n = theStorage.getNumOfSprings() - 1;
+	for ( int i = 0; i < n; ++i ) {
+		_xSlider[i]->setValue( 0 );
+	}
+
 	disableItems( false );
 	emit experimentReset();
 }

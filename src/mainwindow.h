@@ -29,11 +29,10 @@ public:
 	void changeSpeed( int s );
 	void changeQuality( int q, bool started );
 
+	void displayTime();
+
 	QTimer * qtmr;
 	bool buttonflag, io;
-
-private slots:
-	void displayTime();
 
 private:
 	QWidget *			_mainWidget;

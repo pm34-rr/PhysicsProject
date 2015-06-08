@@ -91,7 +91,7 @@ void Cscene3D::initializeGL()
     float balance = - 0.2 - 0.8 - (m_action[0].m * 9.81 / m_action[0].k);
     float spring_step = -0.3f;
 
-	int n = theStorage.getNumOfSprings();
+	int n = 5;
 	shift = ((((float)n)-1.0)*fabs(balance+m_action[1].x)+(((float)n)-1.0)*fabs(spring_step)+ fabs(balance+m_action[0].x))/2.0;
 
 	for(int i = 0; i < n; i++)
@@ -208,7 +208,7 @@ void Cscene3D::paintGL()
 	springs[n].resize(2*shift + 2*balance + 2*spring_step + m_action[1].x);
 	springs[n].draw();
 }
-*/
+
 void Cscene3D::paintGL()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -252,6 +252,62 @@ void Cscene3D::paintGL()
 	springs[n].resize(2*shift + n*balance + n*spring_step + m_action[n-1].x);
 	springs[n].draw();
 
+}
+
+*/
+
+void Cscene3D::paintGL()
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+	glScalef(nSca, nSca, nSca);
+	glRotatef(xRot, 0.0f, -1.0f, 0.0f);
+	glRotatef(90.0f, 1.0f, 0.0f,0.0f);
+
+	float balance = - 0.2 - 0.8 - (0.01 * 9.81 / 50.0);
+	float spring_step = -0.3f;
+	glTranslatef(0.0f, shift, 0.0f);
+	wall_left.draw();
+	glTranslatef(0.0f, -2*shift, 0.0f);
+	spring_end.draw();
+	wall_right.draw();
+	glTranslatef(0.0f, 2*shift, 0.0f);
+	double springs_length = 0;
+	int n = theStorage.getNumOfSprings() - 1;
+
+
+	shift =( -(n+1)*balance - n*spring_step)/2.0;
+
+	for(int i = 0; i < n; i++)
+	{
+		spring_start.draw();
+
+		if(i!=0)
+		{
+			springs[i].resize( m_action[i-1].x - balance - m_action[i].x);
+			glTranslatef(0.0f, i*(balance+spring_step) + m_action[i-1].x ,0.0f);
+			springs[i].draw();
+			glTranslatef(0.0f, -i*(balance+spring_step) - m_action[i-1].x ,0.0f);
+		}
+		else
+		{
+			springs[i].resize(- m_action[i].x - balance);
+			springs[i].draw();
+		}
+
+		glTranslatef(0.0f, m_action[i].x + (i+1)*balance + i*spring_step,0.0f);
+		sphere.draw();
+		spring_end.draw();
+		glTranslatef(0.0f, spring_step ,0.0f);
+		springs_length += spring_step - m_action[i].x + balance;
+		glTranslatef(0.0f, -(i+1)*(balance + spring_step) - m_action[i].x ,0.0f);
+	}
+	glTranslatef(0.0f, n*(balance+spring_step) + m_action[n-1].x ,0.0f);
+	spring_start.draw();
+	springs[n].resize(2*shift + n*balance + n*spring_step + m_action[n-1].x);
+	springs[n].draw();
 }
 
 

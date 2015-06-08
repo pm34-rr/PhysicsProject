@@ -109,8 +109,9 @@ void MainWindow::changeK( int k )
 void MainWindow::changeShift( int i, float x )
 {
 	int n = theStorage.getNumOfSprings() - 1;
-	m_action[n - i - 1].x0 = m_action[n - i - 1].x = x;
-	m_action[n - i - 1].InitBall();
+	int a = n-i-1;
+	m_action[a].x0 = m_action[a].x = x;
+	m_action[a].InitBall();
 	ui->widget->updateGL();
 }
 

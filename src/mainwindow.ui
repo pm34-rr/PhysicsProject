@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Пружинный маятник в среде с сопротивлением</string>
+   <string>Виртуальная лаборатория</string>
   </property>
   <property name="windowIcon">
    <iconset resource="resources/mres.qrc">
@@ -47,13 +47,6 @@
  </customwidgets>
  <tabstops>
   <tabstop>centralWidget</tabstop>
-  <tabstop>horizontalSlider</tabstop>
-  <tabstop>horizontalSlider_2</tabstop>
-  <tabstop>horizontalSlider_3</tabstop>
-  <tabstop>horizontalSlider_5</tabstop>
-  <tabstop>horizontalSlider_6</tabstop>
-  <tabstop>pushButton</tabstop>
-  <tabstop>pushButton_2</tabstop>
  </tabstops>
  <resources>
   <include location="resources/mres.qrc"/>
