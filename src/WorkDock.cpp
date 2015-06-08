@@ -139,6 +139,7 @@ WorkDock::WorkDock( QWidget * parent ):
 	_speedSlider->setRange( 10, 200 );
 	_speedSlider->setSingleStep( 5 );
 	_speedSlider->setValue( 100 );
+	connect( _speedSlider, &QSlider::valueChanged, this, &WorkDock::changeSpeed );
 	_speedLabelNum = new QLabel( "100", this );
 	_speedLabelNum->resize( LABEL_NUM_WIDTH, _speedLabelNum->height() );
 	_speedLabelNum->move( _speedSlider->x() + _speedSlider->width() + PADDING, _speedSlider->y() );
@@ -151,6 +152,7 @@ WorkDock::WorkDock( QWidget * parent ):
 	_graphicsSlider->move( LEFT_ALIGN, _graphicsLabel->y() + _graphicsLabel->height() + PADDING );
 	_graphicsSlider->setRange( 10, 100 );
 	_graphicsSlider->setValue( 40 );
+	connect( _graphicsSlider, &QSlider::valueChanged, this, &WorkDock::changeQuality );
 	_graphicsSpeed = new QLabel( tr( "Speed" ), this );
 	_graphicsSpeed->move( width() - LEFT_ALIGN - 40, _graphicsSlider->y() + _graphicsSlider->height() + PADDING );
 	_graphicsQuality = new QLabel( tr( "Quality" ), this );
@@ -189,8 +191,6 @@ void WorkDock::changeLayoutsAndBodies( int bodiesCount )
 	int n = theStorage.getNumOfSprings() - 1;
 	if ( n == bodiesCount )
 		return;
-
-	// return;
 
 	switch ( bodiesCount ) {
 		case 2:
@@ -282,6 +282,8 @@ void WorkDock::changeLayoutsAndBodies( int bodiesCount )
 	_resetButton->move( _startButton->x() + _startButton->width() + 5, _startButton->y() );
 
 	theStorage.setNumOfSprings( bodiesCount + 1 );
+
+	emit stringsCountChanged( bodiesCount + 1 );
 }
 
 void WorkDock::disableItems( bool dicision )
@@ -361,10 +363,11 @@ void WorkDock::changeShift4(int x)
 
 void WorkDock::changeSpeed( int speed )
 {
-
+	_speedLabelNum->setText( QString::number( speed ) );
+	emit speedChanged( speed );
 }
 
-void WorkDock::changeQuality( int q , bool started )
+void WorkDock::changeQuality( int q )
 {
-
+	emit qualityChanged( q, _started );
 }

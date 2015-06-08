@@ -22,6 +22,7 @@ public:
 	void stopExperiment();
 	void resetExperiment();
 
+	void changeBodiesCout( int n );
 	void changeMass( float mass );
 	void changeK( int k );
 	void changeShift( int i, float x );

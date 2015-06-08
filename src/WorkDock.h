@@ -32,7 +32,7 @@ private:
 	void changeShift3( int x );
 	void changeShift4( int x );
 	void changeSpeed( int speed );
-	void changeQuality( int q, bool started );
+	void changeQuality( int q );
 
 	void needUpdateGL();
 

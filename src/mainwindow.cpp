@@ -11,34 +11,20 @@
 #include <QFontDatabase>
 #include <QtWidgets/QBoxLayout>
 
-// Фикс шрифтов (замена стандартных на Tahoma, если стандартные не поддерживают кириллицу)
-template<typename T> void fix_fonts(T * widget)
-{
-    static QFontDatabase qfd;
-	if(!qfd.families(QFontDatabase::Cyrillic).contains(widget->font().family(), Qt::CaseInsensitive))
-	{
-        QFont font_tahoma = widget->font();
-        font_tahoma.setFamily("Tahoma");
-        widget->setFont(font_tahoma);
-    }
-}
-
-
-bool go(false);
-
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
 	ui( new Ui::MainWindow )
 {
 	//дефолтные значения(пример)
-	int n = theStorage.getNumOfSprings() - 1;
+	int n = 4;
 	for ( int i = 0; i < n; i++) {
 		m_action[i].m = 0.01;
 		m_action[i].A0 = 0;
 		m_action[i].x = 0.0;
 		m_action[i].x0 = 0.0;
 		m_action[i].k = 25;
+		m_action[i].ktime = 1;
 	}
 
 	ui->setupUi( this );
@@ -65,7 +51,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect( _workDock, &WorkDock::shiftChanged, this, &MainWindow::changeShift );
 	connect( _workDock, &WorkDock::speedChanged, this, &MainWindow::changeSpeed );
 	connect( _workDock, &WorkDock::qualityChanged, this, &MainWindow::changeQuality );
-
+	connect( _workDock, &WorkDock::stringsCountChanged, this, &MainWindow::changeBodiesCout );
 }
 
 MainWindow::~MainWindow()
@@ -93,6 +79,12 @@ void MainWindow::resetExperiment()
 	ui->widget->updateGL();
 }
 
+void MainWindow::changeBodiesCout( int n )
+{
+	n--;
+
+}
+
 void MainWindow::changeMass( float mass )
 {
 	int n = theStorage.getNumOfSprings() - 1;
@@ -115,18 +107,17 @@ void MainWindow::changeK( int k )
 
 void MainWindow::changeShift( int i, float x )
 {
-	m_action[i].x0 = x;
-	m_action[i].InitBall();
+	int n = theStorage.getNumOfSprings() - 1;
+	m_action[n - i - 1].x0 = m_action[n - i - 1].x = x;
+	m_action[n - i - 1].InitBall();
 	ui->widget->updateGL();
 }
 
 void MainWindow::changeSpeed( int s )
 {
 	int n = theStorage.getNumOfSprings() - 1;
-	for ( int i = 0; i < n; i++ ) {
+	for ( int i = 0; i < n; i++ )
 		m_action[i].ktime = s / 100.0;
-		m_action[i].InitBall();
-	}
 	ui->widget->updateGL();
 }
 
