@@ -82,6 +82,7 @@ void MainWindow::resetExperiment()
 void MainWindow::changeBodiesCout( int n )
 {
 	n--;
+	ui->widget->updateGL();
 
 }
 

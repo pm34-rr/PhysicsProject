@@ -188,6 +188,9 @@ void WorkDock::setTime( QString t )
 void WorkDock::changeLayoutsAndBodies( int bodiesCount )
 {
 	bodiesCount += 2;
+	if ( bodiesCount > 4 )
+		return;
+
 	int n = theStorage.getNumOfSprings() - 1;
 	if ( n == bodiesCount )
 		return;
