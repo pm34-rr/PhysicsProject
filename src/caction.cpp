@@ -12,6 +12,7 @@ Caction::~Caction()
 
 void Caction::InitBall()
 {
+	/*
 	fita =		0;
 	w0 =		sqrt( k / m );
 	w =			w0;
@@ -23,13 +24,5 @@ void Caction::InitBall()
 	v =			0;
 	E0 =		k * A0 * A0 / 2;
 	E =			E0;
-}
-
-void Caction::Refresh( double Ntime )
-{
-    double t = Ntime / 1000.0;
-		x = A0 * cos( w * t + fita );
-        v = (x - oldx) / (t - oldtime);
-        oldx = x;
-        oldtime = t;       
+	*/
 }

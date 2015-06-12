@@ -53,7 +53,20 @@ SOURCES += src/main.cpp \
            src/cmilkshapemodel.cpp \
            src/Storage.cpp \
            src/WorkDock.cpp \
-    src/Calculations.cpp
+    src/Calculations.cpp \
+    src/MathLib/alglibinternal.cpp \
+    src/MathLib/alglibmisc.cpp \
+    src/MathLib/ap.cpp \
+    src/MathLib/dataanalysis.cpp \
+    src/MathLib/diffequations.cpp \
+    src/MathLib/fasttransforms.cpp \
+    src/MathLib/integration.cpp \
+    src/MathLib/interpolation.cpp \
+    src/MathLib/linalg.cpp \
+    src/MathLib/optimization.cpp \
+    src/MathLib/solvers.cpp \
+    src/MathLib/specialfunctions.cpp \
+    src/MathLib/statistics.cpp
 
 HEADERS += src/mainwindow.h \
            src/cscene3d.h \
@@ -62,7 +75,21 @@ HEADERS += src/mainwindow.h \
            src/main.h \
            src/Storage.h \
            src/WorkDock.h \
-    src/Calculations.h
+    src/Calculations.h \
+    src/MathLib/alglibinternal.h \
+    src/MathLib/alglibmisc.h \
+    src/MathLib/ap.h \
+    src/MathLib/dataanalysis.h \
+    src/MathLib/diffequations.h \
+    src/MathLib/fasttransforms.h \
+    src/MathLib/integration.h \
+    src/MathLib/interpolation.h \
+    src/MathLib/linalg.h \
+    src/MathLib/optimization.h \
+    src/MathLib/solvers.h \
+    src/MathLib/specialfunctions.h \
+    src/MathLib/statistics.h \
+    src/MathLib/stdafx.h
 
 FORMS   += \
            src/mainwindow.ui

@@ -321,9 +321,15 @@ void WorkDock::experimentResets()
 {
 	// TODO: make all widgets to default values
 	int n = theStorage.getNumOfSprings() - 1;
-	for ( int i = 0; i < n; ++i ) {
+	for ( int i = 0; i < n; ++i )
 		_xSlider[i]->setValue( 0 );
+
+	_timerNumber->display( "0.00" );
+	if ( _started ) {
+		_started = false;
+		_startButton->setText( tr( "Start" ) );
 	}
+
 
 	disableItems( false );
 	emit experimentReset();

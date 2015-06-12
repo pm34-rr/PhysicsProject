@@ -1,10 +1,13 @@
-#include <QtWidgets>
+#include "cscene3d.h"
 
 #include "main.h"
-#include "cscene3d.h"
+#include "Storage.h"
+#include "Calculations.h"
+
 #include <cmath>
 
-#include "Storage.h"
+#include <QtWidgets>
+
 
 unsigned long long int tot = 0;
 int vfps = 10;
@@ -26,20 +29,23 @@ Cscene3D::Cscene3D( QWidget * parent ):
     zRot = 90.0f;
     zTra = 0.0f;
 	nSca = 0.5f;
+
+	_calculations = new Calculations;
 }
 
 void Cscene3D::prepareBodies()
 {
 	int n = theStorage.getNumOfSprings() - 1;
-	if ( n == 2 ) {
-		m_action[0].fita = m_action[1].fita = 0;
-		m_action[0].A0 = (m_action[0].x0 + m_action[1].x0) / 2;
-		m_action[1].A0 = (m_action[0].x0 - m_action[1].x0) / 2;
-	}
+	_tempArray.resize( n, 0 );
+	for ( int i = 0; i < n; ++i )
+		_tempArray[i] = m_action[i].x0;
+
+	_calculations->initializeCalculations( n, m_action[0].k, m_action[0].m, _tempArray );
 }
 
 void Cscene3D::actiontime()
 {
+	/*
 	int n = theStorage.getNumOfSprings() - 1;
 	if ( n == 2 ) {
 		tot += (long long unsigned int)(vfps * m_action[0].ktime);
@@ -58,13 +64,17 @@ void Cscene3D::actiontime()
 		m_action[1].oldx = m_action[1].x;
 		m_action[1].oldtime = t;
 	}
-	/*
-	for ( int i = 0; i < n; i++ )
-    {
-		tot += (long long unsigned int)(vfps * m_action[i].ktime);		
-		m_action[i].Refresh( tot );
-    }
 	*/
+
+	tot += (long long unsigned int)( vfps * m_action[0].ktime );
+	double t = tot / 1000.0;
+	_calculations->calculateShifts( t, _tempArray );
+	int n = _tempArray.size();
+	for ( int i = 0; i < n; ++i ) {
+		m_action[i].x = _tempArray[i];
+	}
+
+	updateGL();
 }
 
 

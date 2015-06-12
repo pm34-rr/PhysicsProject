@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	//дефолтные значения(пример)
 	int n = 4;
 	for ( int i = 0; i < n; i++) {
-		m_action[i].m = 0.01;
+		m_action[i].m = 0.2;
 		m_action[i].A0 = 0;
 		m_action[i].x = 0.0;
 		m_action[i].x0 = 0.0;
@@ -39,7 +39,6 @@ MainWindow::MainWindow(QWidget *parent) :
 	setCentralWidget( _mainWidget );
 	qtmr = new QTimer( this );
 	connect( qtmr, &QTimer::timeout, ui->widget, &Cscene3D::actiontime );
-	connect( qtmr, &QTimer::timeout, ui->widget, &Cscene3D::updateGL );
 	connect( qtmr, &QTimer::timeout, this, &MainWindow::displayTime );
 
 	connect( _workDock, &WorkDock::experimentStarted, this, &MainWindow::startExperiment );
@@ -91,18 +90,14 @@ void MainWindow::changeMass( float mass )
 	int n = theStorage.getNumOfSprings() - 1;
 	for( int i = 0; i < n; i++ )
 		m_action[i].m = mass;
-	for( int i = 0; i < n; i++)
-		m_action[i].InitBall();
 	ui->widget->updateGL();
 }
 
 void MainWindow::changeK( int k )
 {
 	int n = theStorage.getNumOfSprings() - 1;
-	for ( int i = 0; i < n; i++ ) {
+	for ( int i = 0; i < n; i++ )
 		m_action[i].k = k;
-		m_action[i].InitBall();
-	}
 	ui->widget->updateGL();
 }
 
@@ -111,7 +106,6 @@ void MainWindow::changeShift( int i, float x )
 	int n = theStorage.getNumOfSprings() - 1;
 	int a = n-i-1;
 	m_action[a].x0 = m_action[a].x = x;
-	m_action[a].InitBall();
 	ui->widget->updateGL();
 }
 
@@ -128,7 +122,7 @@ void MainWindow::changeQuality( int q , bool started )
 	vfps = q;
 	qtmr-> stop();
 	if( started )
-		qtmr->start( started );
+		qtmr->start( q );
 }
 
 void MainWindow::displayTime()

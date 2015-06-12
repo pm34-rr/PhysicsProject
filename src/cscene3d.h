@@ -10,34 +10,17 @@
 #define GL_MULTISAMPLE  0x809D
 #endif
 
+class Calculations;
+
 class Cscene3D : public QGLWidget
 {
     Q_OBJECT
 
-private:
-    //модели
-    CMilkshapeModel wall_left, wall_right, spring_start, spring_end, sphere;
-    CModelSpring springs[5];
+public:
+	Cscene3D(QWidget* parent = 0);
+	void prepareBodies();
+	void actiontime();
 
-    GLfloat xRot;
-    GLfloat yRot;
-    GLfloat zRot;
-    GLfloat zTra;
-    GLfloat nSca;
-
-    QPoint ptrMousePosition;
-    //реакция на клавиши и мышь
-    void scale_plus();
-    void scale_minus();
-    void rotate_up();
-    void rotate_down();
-    void rotate_left();
-    void rotate_right();
-    void translate_down();
-    void translate_up();
-    void defaultScene();
-    // Обновление освещения при изменении масштаба
-    void update_light();
 
 protected:
     void initializeGL();
@@ -50,13 +33,34 @@ protected:
     void keyPressEvent(QKeyEvent* pe);
     void timerEvent(QTimerEvent *); // обработка события таймера
 
-public:
-    Cscene3D(QWidget* parent = 0);
-	void prepareBodies();
+private:
+	//модели
+	CMilkshapeModel wall_left, wall_right, spring_start, spring_end, sphere;
+	CModelSpring springs[5];
 
-public slots:
-    void actiontime();
+	GLfloat xRot;
+	GLfloat yRot;
+	GLfloat zRot;
+	GLfloat zTra;
+	GLfloat nSca;
 
+	QPoint ptrMousePosition;
+
+	Calculations * _calculations;
+	std::vector<double> _tempArray;
+
+	//реакция на клавиши и мышь
+	void scale_plus();
+	void scale_minus();
+	void rotate_up();
+	void rotate_down();
+	void rotate_left();
+	void rotate_right();
+	void translate_down();
+	void translate_up();
+	void defaultScene();
+	// Обновление освещения при изменении масштаба
+	void update_light();
 };
 
 #endif // CSCENE3D_H
