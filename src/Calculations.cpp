@@ -14,11 +14,11 @@ void Calculations::calculateShifts( double t, vd & x )
 	int i, j;
 	int n = _preAmplitudes.size();
 	vd amplitude( n, 0 );
-	x.assign( n, 0 );
+	x.resize( n, 0 );
 	for ( i = 0; i < n; ++i ) {
 		calculateAmplitudes( _preAmplitudes, _sigma, amplitude, i );
 		for ( j = 0; j < n; ++j )
-			x[j] += amplitude[j] * cos( _omega[i]*t + _phita[j] );
+			x[i] += amplitude[j] * cos( _omega[j]*t + _phita[j] );
 	}
 }
 
@@ -112,14 +112,19 @@ void Calculations::initializeCalculations( int n, int koefficient, float mass, v
 	for ( i = 0; i < n; ++i ) {
 		if ( _preAmplitudes[i] == 0 )
 			_phita[i] = 0;
-		else
+		else {
 			_phita[i] = atan( C2[i] / C1[i] );
-		if ( C1[i] < 0 )
-			_phita[i] = M_PI + _phita[i];
-		if ( C1[i] > 0 )
-			if ( C2[i] < 0 )
-				_phita[i] = 2 * M_PI + _phita[i];
+			int ex = C1[i] * 1000;
+			if ( ex < 0 )
+				_phita[i] += M_PI ;
+			else if ( ex > 0 ) {
+				int ex2 = C2[i] * 1000;
+				if ( ex2 < 0 )
+					_phita[i] += 2 * M_PI;
+			}
+		}
 	}
+// _phita[1] = 0;
 }
 
 void Calculations::multip( alglib::real_2d_array & s, vd & b, vd & g )
