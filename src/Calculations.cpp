@@ -13,21 +13,40 @@ void Calculations::calculateShifts( double t, vd & x )
 {
 	int i, j;
 	int n = _preAmplitudes.size();
+
+
 	vd amplitude( n, 0 );
-	x.resize( n, 0 );
+	for ( int i = 0; i < n; ++i )
+		x[i] = 0;
 	for ( i = 0; i < n; ++i ) {
 		calculateAmplitudes( _preAmplitudes, _sigma, amplitude, i );
 		for ( j = 0; j < n; ++j )
-			x[i] += amplitude[j] * cos( _omega[j]*t + _phita[j] );
+			x[j] += amplitude[j] * cos( _omega[i]*t + _phita[i] );
 	}
+
+	int a = 5 + 6;
+
+	vd temp( n, 0 );
+	for ( int i = 0; i < n; ++i ) {
+		temp[i] = x[ n - i - 1];
+	}
+	for ( int i = 0; i < n; ++i )
+		x[i] = temp[i];
 }
 
 void Calculations::initializeCalculations( int n, int koefficient, float mass, vd & beginingShifts )
 {
+	vd temp( n, 0 );
+	for ( int i = 0; i < n; ++i ) {
+		temp[i] = beginingShifts[ n - i - 1];
+	}
+	for ( int i = 0; i < n; ++i )
+		beginingShifts[i] = temp[i];
+
 	alglib::real_2d_array OMEGA, Sigma1, VR, SigmaV, SigmaV1;
 	alglib::real_1d_array Teta, WI;
 	Teta.setlength( n );
-	SigmaV.setlength( 2*n, 2*n );
+	SigmaV.setlength( n, n );
 	SigmaV1.setlength( n, n );
 	Sigma1.setlength( n, n );
 	WI.setlength( n );
@@ -66,14 +85,14 @@ void Calculations::initializeCalculations( int n, int koefficient, float mass, v
 		}
 	}
 	alglib::rmatrixevd( OMEGA, n, 3, Teta, WI, VR, _sigma );
-	vd sum( n, 0 );
+	double sum;
 	// normalize
 	for ( j = 0; j < n; ++j ) {
-		sum[j] = 0;
+		sum = 0;
 		for ( i = 0; i < n; ++i )
-			sum[j] += _sigma[i][j] * _sigma[i][j];
+			sum += _sigma[i][j] * _sigma[i][j];
 		for ( i = 0; i < n; ++i )
-			_sigma[i][j] /= sqrt( sum[j] );
+			_sigma[i][j] /= sqrt( sum );
 	}
 
 	_omega.resize( n, 0 );
@@ -82,8 +101,7 @@ void Calculations::initializeCalculations( int n, int koefficient, float mass, v
 		_omega[i] = Teta[i];
 	}
 
-
-	for( i = 0; i < n; ++i )
+	for ( i = 0; i < n; ++i )
 		for( j = 0; j < n; ++j )
 			SigmaV[j][i] = -Teta[i] * _sigma(j, i);
 
@@ -96,8 +114,15 @@ void Calculations::initializeCalculations( int n, int koefficient, float mass, v
 	alglib::matinvreport rep;
 	alglib::ae_int_t g;
 	alglib::rmatrixinverse( Sigma1, g, rep );
+	double sig[2][2];
+	for ( int i = 0; i < 2; ++i )
+		for ( int j = 0; j < 2; ++j )
+			sig[i][j] = Sigma1[i][j];
 	alglib::rmatrixinverse( SigmaV1, g, rep );
 
+	for ( int i = 0; i < 2; ++i )
+		for ( int j = 0; j < 2; ++j )
+			sig[i][j] = SigmaV1[i][j];
 	vd C1( n, 0 );
 	vd C2( n, 0 );
 	vd V0( n, 0 );
@@ -124,7 +149,19 @@ void Calculations::initializeCalculations( int n, int koefficient, float mass, v
 			}
 		}
 	}
-// _phita[1] = 0;
+	for ( int i = 0; i < n; ++i ) {
+		temp[i] = beginingShifts[ n - i - 1];
+	}
+	for ( int i = 0; i < n; ++i )
+		beginingShifts[i] = temp[i];
+}
+
+void Calculations::clear()
+{
+	_preAmplitudes.clear();
+	_omega.clear();
+	_phita.clear();
+	_sigma.setlength( 0, 0 );
 }
 
 void Calculations::multip( alglib::real_2d_array & s, vd & b, vd & g )
@@ -136,6 +173,7 @@ void Calculations::multip( alglib::real_2d_array & s, vd & b, vd & g )
 			g[j] += b[i] * s[j][i];
 }
 
+// calculateAmplitudes( _preAmplitudes, _sigma, amplitude, i );
 void Calculations::calculateAmplitudes( vd & s, alglib::real_2d_array & s1, vd & h, int g )
 {
 	int n = s.size();

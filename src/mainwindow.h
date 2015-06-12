@@ -31,6 +31,8 @@ public:
 
 	void displayTime();
 
+	void increaseHeight( int );
+
 	QTimer * qtmr;
 	bool buttonflag, io;
 

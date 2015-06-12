@@ -83,4 +83,6 @@ signals:
 	void shiftChanged( int, float );
 	void speedChanged( int );
 	void qualityChanged( int, bool );
+
+	void needResize( int );
 };

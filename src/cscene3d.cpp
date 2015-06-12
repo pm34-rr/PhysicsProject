@@ -38,6 +38,8 @@ void Cscene3D::prepareBodies()
 	int n = theStorage.getNumOfSprings() - 1;
 	_tempArray.resize( n, 0 );
 	for ( int i = 0; i < n; ++i )
+		_tempArray[i] = 0;
+	for ( int i = 0; i < n; ++i )
 		_tempArray[i] = m_action[i].x0;
 
 	_calculations->initializeCalculations( n, m_action[0].k, m_action[0].m, _tempArray );
@@ -56,6 +58,11 @@ void Cscene3D::actiontime()
 	updateGL();
 }
 
+void Cscene3D::clear()
+{
+	tot = 0;
+	_calculations->clear();
+}
 
 void Cscene3D::timerEvent(QTimerEvent *)
 {

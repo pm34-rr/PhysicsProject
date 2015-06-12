@@ -30,7 +30,7 @@ WorkDock::WorkDock( QWidget * parent ):
 	_bodiesCount = new QLabel( tr( "Bodies count" ), this );
 	_bodiesCount->move( LEFT_LEFT_ALIGN, FIRST_ITEM_Y );
 	_bodyCountBox = new QComboBox( this );
-	_bodyCountBox->move( LEFT_LEFT_ALIGN, _bodiesCount->y() + _bodiesCount->height() + PADDING );
+	_bodyCountBox->move( LEFT_LEFT_ALIGN, _bodiesCount->y() + _bodiesCount->height() - 10);
 	_bodyCountBox->resize( 181, 30 );
 	_bodyCountBox->addItem( "2" );
 	_bodyCountBox->addItem( "3" );
@@ -38,12 +38,12 @@ WorkDock::WorkDock( QWidget * parent ):
 	_bodyCountBox->setCurrentIndex( 0 );
 
 	_startingDataLabel = new QLabel( tr( "Starting data" ), this );
-	_startingDataLabel->move( LEFT_LEFT_ALIGN, _bodyCountBox->y() + _bodyCountBox->height() + PART_PADDING );
+	_startingDataLabel->move( LEFT_LEFT_ALIGN, _bodyCountBox->y() + _bodyCountBox->height() );
 	_massLabel = new QLabel( tr( "Bodys\' mass [kg]" ), this );
-	_massLabel->move( LEFT_ALIGN, _startingDataLabel->y() + _startingDataLabel->height() + PADDING );
+	_massLabel->move( LEFT_ALIGN, _startingDataLabel->y() + _startingDataLabel->height() - PADDING );
 	_massSlider = new QSlider( Qt::Horizontal, this );
 	_massSlider->resize( SLIDER_SIZE );
-	_massSlider->move( LEFT_ALIGN, _massLabel->y() + _massLabel->height() + PADDING );
+	_massSlider->move( LEFT_ALIGN, _massLabel->y() + _massLabel->height() - 2*PADDING );
 	_massSlider->setFocusPolicy( Qt::NoFocus );
 	_massSlider->setRange( 1, 50 );
 	_massSlider->setValue( 20 );
@@ -56,7 +56,7 @@ WorkDock::WorkDock( QWidget * parent ):
 	_kLabel->move( LEFT_ALIGN, _massSlider->y() + _massSlider->height() + PADDING );
 	_kSlider = new QSlider( Qt::Horizontal, this );
 	_kSlider->resize( SLIDER_SIZE );
-	_kSlider->move( LEFT_ALIGN, _kLabel->y() + _kLabel->height() + PADDING );
+	_kSlider->move( LEFT_ALIGN, _kLabel->y() + _kLabel->height() - 2*PADDING );
 	_kSlider->setFocusPolicy( Qt::NoFocus );
 	_kSlider->setRange( 25, 250 );
 	connect( _kSlider, &QSlider::valueChanged, this, &WorkDock::changeK );
@@ -68,7 +68,7 @@ WorkDock::WorkDock( QWidget * parent ):
 	_xLabel[0]->move( LEFT_ALIGN, (_kSlider->y() + _kSlider->height() + PADDING  ) );
 	_xSlider.push_back( new QSlider( Qt::Horizontal, this ) );
 	_xSlider[0]->resize( SLIDER_SIZE );
-	_xSlider[0]->move( LEFT_ALIGN, _xLabel[0]->y() + _xLabel[0]->height() + PADDING );
+	_xSlider[0]->move( LEFT_ALIGN, _xLabel[0]->y() + _xLabel[0]->height() - 2*PADDING );
 	_xSlider[0]->setFocusPolicy( Qt::NoFocus );
 	_xSlider[0]->setRange( -80, 80 );
 	connect( _xSlider[0], &QSlider::valueChanged, this, &WorkDock::changeShift1 );
@@ -80,7 +80,7 @@ WorkDock::WorkDock( QWidget * parent ):
 	_xLabel[1]->move( LEFT_ALIGN, _xSlider[0]->y() + _xSlider[0]->height() + PADDING );
 	_xSlider.push_back( new QSlider( Qt::Horizontal, this ) );
 	_xSlider[1]->resize( SLIDER_SIZE );
-	_xSlider[1]->move( LEFT_ALIGN, _xLabel[1]->y() + _xLabel[1]->height() + PADDING );
+	_xSlider[1]->move( LEFT_ALIGN, _xLabel[1]->y() + _xLabel[1]->height() - 2*PADDING );
 	_xSlider[1]->setFocusPolicy( Qt::NoFocus );
 	_xSlider[1]->setRange( -80, 80 );
 	connect( _xSlider[1], &QSlider::valueChanged, this, &WorkDock::changeShift2 );
@@ -94,7 +94,7 @@ WorkDock::WorkDock( QWidget * parent ):
 	_xLabel[2]->hide();
 	_xSlider.push_back( new QSlider( Qt::Horizontal, this ) );
 	_xSlider[2]->resize( SLIDER_SIZE );
-	_xSlider[2]->move( LEFT_ALIGN, _xLabel[2]->y() + _xLabel[2]->height() + PADDING );
+	_xSlider[2]->move( LEFT_ALIGN, _xLabel[2]->y() + _xLabel[2]->height() - 2*PADDING );
 	_xSlider[2]->setFocusPolicy( Qt::NoFocus );
 	_xSlider[2]->hide();
 	_xSlider[2]->setRange( -80, 80 );
@@ -109,7 +109,7 @@ WorkDock::WorkDock( QWidget * parent ):
 	_xLabel[3]->hide();
 	_xSlider.push_back( new QSlider( Qt::Horizontal, this ) );
 	_xSlider[3]->resize( SLIDER_SIZE );
-	_xSlider[3]->move( LEFT_ALIGN, _xLabel[3]->y() + _xLabel[3]->height() + PADDING );
+	_xSlider[3]->move( LEFT_ALIGN, _xLabel[3]->y() + _xLabel[3]->height() - 2*PADDING );
 	_xSlider[3]->setFocusPolicy( Qt::NoFocus );
 	_xSlider[3]->setRange( -80, 80 );
 	_xSlider[3]->hide();
@@ -121,20 +121,20 @@ WorkDock::WorkDock( QWidget * parent ):
 
 
 	_timeLabel = new QLabel( tr( "Time [s]" ), this );
-	_timeLabel->move( 120, _xSlider[1]->y() + _xSlider[1]->height() + PART_PADDING );
+	_timeLabel->move( 120, _xSlider[1]->y() + _xSlider[1]->height() + PADDING );
 	_timerNumber = new QLCDNumber( this );
 	_timerNumber->setDecMode();
 	_timerNumber->setSegmentStyle(QLCDNumber::Flat);
 	_timerNumber->resize( TIMER_SIZE );
-	_timerNumber->move( _timeLabel->x(), _timeLabel->y() + _timeLabel->height() + PADDING );
+	_timerNumber->move( _timeLabel->x(), _timeLabel->y() + _timeLabel->height() - 3*PADDING );
 
 	_controlPanelLabel = new QLabel( tr( "Control panel" ), this );
 	_controlPanelLabel->move( LEFT_LEFT_ALIGN, _timerNumber->y() + _timerNumber->height() + PADDING );
 	_speedLabel = new QLabel( tr( "Experiment speed [%]" ), this );
-	_speedLabel->move( LEFT_ALIGN, _controlPanelLabel->y() + _controlPanelLabel->height() + PADDING );
+	_speedLabel->move( LEFT_ALIGN, _controlPanelLabel->y() + _controlPanelLabel->height() - PADDING );
 	_speedSlider = new QSlider( Qt::Horizontal, this );
 	_speedSlider->resize( SLIDER_SIZE );
-	_speedSlider->move( LEFT_ALIGN, _speedLabel->y() + _speedLabel->height() + PADDING );
+	_speedSlider->move( LEFT_ALIGN, _speedLabel->y() + _speedLabel->height() - 3*PADDING );
 	_speedSlider->setFocusPolicy( Qt::NoFocus );
 	_speedSlider->setRange( 10, 200 );
 	_speedSlider->setSingleStep( 5 );
@@ -145,16 +145,16 @@ WorkDock::WorkDock( QWidget * parent ):
 	_speedLabelNum->move( _speedSlider->x() + _speedSlider->width() + PADDING, _speedSlider->y() );
 
 	_graphicsLabel = new QLabel( tr( "Graphics" ), this );
-	_graphicsLabel->move( LEFT_ALIGN, _speedSlider->y() + _speedSlider->height() + PART_PADDING );
+	_graphicsLabel->move( LEFT_ALIGN, _speedSlider->y() + _speedSlider->height() + PADDING );
 	_graphicsSlider = new QSlider( Qt::Horizontal, this );
 	_graphicsSlider->setFocusPolicy( Qt::NoFocus );
 	_graphicsSlider->resize( SLIDER_SIZE );
-	_graphicsSlider->move( LEFT_ALIGN, _graphicsLabel->y() + _graphicsLabel->height() + PADDING );
+	_graphicsSlider->move( LEFT_ALIGN, _graphicsLabel->y() + _graphicsLabel->height() - 3*PADDING );
 	_graphicsSlider->setRange( 10, 100 );
 	_graphicsSlider->setValue( 40 );
 	connect( _graphicsSlider, &QSlider::valueChanged, this, &WorkDock::changeQuality );
 	_graphicsSpeed = new QLabel( tr( "Speed" ), this );
-	_graphicsSpeed->move( width() - LEFT_ALIGN - 40, _graphicsSlider->y() + _graphicsSlider->height() + PADDING );
+	_graphicsSpeed->move( width() - LEFT_ALIGN - 40, _graphicsSlider->y() + _graphicsSlider->height() );
 	_graphicsQuality = new QLabel( tr( "Quality" ), this );
 	_graphicsQuality->move( LEFT_ALIGN, _graphicsSpeed->y() );
 
@@ -268,9 +268,10 @@ void WorkDock::changeLayoutsAndBodies( int bodiesCount )
 	}
 	n = bodiesCount - 1;
 
-	_timeLabel->move( _timeLabel->x(), _xSlider[n]->y() + _xSlider[n]->height() + PART_PADDING );
-	_timerNumber->move( _timeLabel->x(), _timeLabel->y() + _timeLabel->height() + PADDING );
+	_timeLabel->move( _timeLabel->x(), _xSlider[n]->y() + _xSlider[n]->height() + PADDING );
+	_timerNumber->move( _timeLabel->x(), _timeLabel->y() + _timeLabel->height() - 3*PADDING );
 
+	/*
 	_controlPanelLabel->move( LEFT_LEFT_ALIGN, _timerNumber->y() + _timerNumber->height() + PADDING );
 	_speedLabel->move( LEFT_ALIGN, _controlPanelLabel->y() + _controlPanelLabel->height() + PADDING );
 	_speedSlider->move( LEFT_ALIGN, _speedLabel->y() + _speedLabel->height() + PADDING );
@@ -282,7 +283,24 @@ void WorkDock::changeLayoutsAndBodies( int bodiesCount )
 	_graphicsQuality->move( LEFT_ALIGN, _graphicsSpeed->y() );
 
 	_startButton->move( LEFT_LEFT_ALIGN, _graphicsQuality->y() + _graphicsQuality->height() + PART_PADDING );
+	_resetButton->move( _startButton->x() + _startButton->width() + PADDING, _startButton->y() );
+	*/
+
+	_controlPanelLabel->move( LEFT_LEFT_ALIGN, _timerNumber->y() + _timerNumber->height() + PADDING );
+	_speedLabel->move( LEFT_ALIGN, _controlPanelLabel->y() + _controlPanelLabel->height() - PADDING );
+	_speedSlider->move( LEFT_ALIGN, _speedLabel->y() + _speedLabel->height() - 3*PADDING );
+	_speedLabelNum->move( _speedSlider->x() + _speedSlider->width() + PADDING, _speedSlider->y() );
+
+	_graphicsLabel->move( LEFT_ALIGN, _speedSlider->y() + _speedSlider->height() + PADDING );
+	_graphicsSlider->move( LEFT_ALIGN, _graphicsLabel->y() + _graphicsLabel->height() - 3*PADDING );
+	_graphicsSpeed->move( width() - LEFT_ALIGN - 40, _graphicsSlider->y() + _graphicsSlider->height() );
+	_graphicsQuality->move( LEFT_ALIGN, _graphicsSpeed->y() );
+
+	_startButton->move( LEFT_LEFT_ALIGN, _graphicsQuality->y() + _graphicsQuality->height() + PART_PADDING );
 	_resetButton->move( _startButton->x() + _startButton->width() + 5, _startButton->y() );
+
+	if ( (theStorage.getNumOfSprings() - 1) != bodiesCount )
+		emit needResize( bodiesCount - theStorage.getNumOfSprings() + 1 );
 
 	theStorage.setNumOfSprings( bodiesCount + 1 );
 

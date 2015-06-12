@@ -12,6 +12,7 @@ public:
 
 	void calculateShifts( double t, vd & x );
 	void initializeCalculations( int n, int koefficient, float mass, vd & beginingShifts );
+	void clear();
 
 private:
 	vd _preAmplitudes;

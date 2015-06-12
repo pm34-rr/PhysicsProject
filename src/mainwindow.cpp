@@ -51,6 +51,8 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect( _workDock, &WorkDock::speedChanged, this, &MainWindow::changeSpeed );
 	connect( _workDock, &WorkDock::qualityChanged, this, &MainWindow::changeQuality );
 	connect( _workDock, &WorkDock::stringsCountChanged, this, &MainWindow::changeBodiesCout );
+
+	connect( _workDock, &WorkDock::needResize, this, &MainWindow::increaseHeight );
 }
 
 MainWindow::~MainWindow()
@@ -73,8 +75,10 @@ void MainWindow::resetExperiment()
 {
 	qtmr->stop();
 	int n = theStorage.getNumOfSprings() - 1;
-	for ( int i = 0; i < n; i++ )
+	for ( int i = 0; i < n; i++ ) {
 		m_action[i].x = 0;
+	}
+	ui->widget->clear();
 	ui->widget->updateGL();
 }
 
@@ -130,4 +134,9 @@ void MainWindow::displayTime()
     QString str;
 	str.setNum( tot / 1000.0, 10, 2);
 	_workDock->setTime( str );
+}
+
+void MainWindow::increaseHeight( int n )
+{
+	resize( width(), height() + n*42 );
 }

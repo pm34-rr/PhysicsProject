@@ -20,6 +20,7 @@ public:
 	Cscene3D(QWidget* parent = 0);
 	void prepareBodies();
 	void actiontime();
+	void clear();
 
 
 protected:
