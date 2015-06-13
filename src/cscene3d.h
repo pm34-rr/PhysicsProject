@@ -10,8 +10,6 @@
 #define GL_MULTISAMPLE  0x809D
 #endif
 
-class Calculations;
-
 class Cscene3D : public QGLWidget
 {
     Q_OBJECT
@@ -47,7 +45,6 @@ private:
 
 	QPoint ptrMousePosition;
 
-	Calculations * _calculations;
 	std::vector<double> _tempArray;
 
 	//реакция на клавиши и мышь

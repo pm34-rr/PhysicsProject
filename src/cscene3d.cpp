@@ -29,8 +29,6 @@ Cscene3D::Cscene3D( QWidget * parent ):
     zRot = 90.0f;
     zTra = 0.0f;
 	nSca = 0.5f;
-
-	_calculations = new Calculations;
 }
 
 void Cscene3D::prepareBodies()
@@ -42,14 +40,14 @@ void Cscene3D::prepareBodies()
 	for ( int i = 0; i < n; ++i )
 		_tempArray[i] = m_action[i].x0;
 
-	_calculations->initializeCalculations( n, m_action[0].k, m_action[0].m, _tempArray );
+	theCalcs.initializeCalculations( n, m_action[0].k, m_action[0].m, _tempArray );
 }
 
 void Cscene3D::actiontime()
 {
 	tot += (long long unsigned int)( vfps * m_action[0].ktime );
 	double t = tot / 1000.0;
-	_calculations->calculateShifts( t, _tempArray );
+	theCalcs.calculateShifts( t, _tempArray );
 	int n = _tempArray.size();
 	for ( int i = 0; i < n; ++i ) {
 		m_action[i].x = _tempArray[i];
@@ -61,7 +59,7 @@ void Cscene3D::actiontime()
 void Cscene3D::clear()
 {
 	tot = 0;
-	_calculations->clear();
+	theCalcs.clear();
 }
 
 void Cscene3D::timerEvent(QTimerEvent *)

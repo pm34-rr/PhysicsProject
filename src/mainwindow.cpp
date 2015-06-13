@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 
+#include "AppMenu.h"
 #include "WorkDock.h"
 #include "Storage.h"
 #include "main.h"
@@ -16,6 +17,9 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
 	ui( new Ui::MainWindow )
 {
+	AppMenu * menu = new AppMenu( this );
+	setMenuBar( menu );
+
 	//дефолтные значения(пример)
 	int n = 4;
 	for ( int i = 0; i < n; i++) {

@@ -4,16 +4,25 @@
 
 typedef std::vector<std::vector<double> > vvd;
 
+Calculations * Calculations::_calcs = nullptr;
+
 Calculations::Calculations()
 {
+	_cleared = true;
+}
 
+Calculations &Calculations::getInsance()
+{
+	if ( _calcs == nullptr )
+		_calcs = new Calculations;
+
+	return *_calcs;
 }
 
 void Calculations::calculateShifts( double t, vd & x )
 {
 	int i, j;
 	int n = _preAmplitudes.size();
-
 
 	vd amplitude( n, 0 );
 	for ( int i = 0; i < n; ++i )
@@ -24,8 +33,6 @@ void Calculations::calculateShifts( double t, vd & x )
 			x[j] += amplitude[j] * cos( _omega[i]*t + _phita[i] );
 	}
 
-	int a = 5 + 6;
-
 	vd temp( n, 0 );
 	for ( int i = 0; i < n; ++i ) {
 		temp[i] = x[ n - i - 1];
@@ -34,8 +41,25 @@ void Calculations::calculateShifts( double t, vd & x )
 		x[i] = temp[i];
 }
 
+void Calculations::calculateSpeed( double t, vd & v )
+{
+	int i, j;
+	int n = _preAmplitudes.size();
+
+	vd amplitude( n, 0 );
+	for ( int i = 0; i < n; ++i )
+		v[i] = 0;
+	for ( i = 0; i < n; ++i ) {
+		calculateAmplitudes( _preAmplitudes, _sigma, amplitude, i );
+		for ( j = 0; j < n; ++j )
+			v[j] -= amplitude[j] * _omega[i] * sin( _omega[i]*t + _phita[i] );
+	}
+}
+
 void Calculations::initializeCalculations( int n, int koefficient, float mass, vd & beginingShifts )
 {
+	// swapping
+	_cleared = false;
 	vd temp( n, 0 );
 	for ( int i = 0; i < n; ++i ) {
 		temp[i] = beginingShifts[ n - i - 1];
@@ -114,15 +138,7 @@ void Calculations::initializeCalculations( int n, int koefficient, float mass, v
 	alglib::matinvreport rep;
 	alglib::ae_int_t g;
 	alglib::rmatrixinverse( Sigma1, g, rep );
-	double sig[2][2];
-	for ( int i = 0; i < 2; ++i )
-		for ( int j = 0; j < 2; ++j )
-			sig[i][j] = Sigma1[i][j];
 	alglib::rmatrixinverse( SigmaV1, g, rep );
-
-	for ( int i = 0; i < 2; ++i )
-		for ( int j = 0; j < 2; ++j )
-			sig[i][j] = SigmaV1[i][j];
 	vd C1( n, 0 );
 	vd C2( n, 0 );
 	vd V0( n, 0 );
@@ -149,6 +165,7 @@ void Calculations::initializeCalculations( int n, int koefficient, float mass, v
 			}
 		}
 	}
+	// swapping
 	for ( int i = 0; i < n; ++i ) {
 		temp[i] = beginingShifts[ n - i - 1];
 	}
@@ -162,6 +179,12 @@ void Calculations::clear()
 	_omega.clear();
 	_phita.clear();
 	_sigma.setlength( 0, 0 );
+	_cleared = true;
+}
+
+vd & Calculations::getFrequency()
+{
+	return _omega;
 }
 
 void Calculations::multip( alglib::real_2d_array & s, vd & b, vd & g )
@@ -173,7 +196,6 @@ void Calculations::multip( alglib::real_2d_array & s, vd & b, vd & g )
 			g[j] += b[i] * s[j][i];
 }
 
-// calculateAmplitudes( _preAmplitudes, _sigma, amplitude, i );
 void Calculations::calculateAmplitudes( vd & s, alglib::real_2d_array & s1, vd & h, int g )
 {
 	int n = s.size();

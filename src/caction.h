@@ -27,8 +27,7 @@ public:
 	double m, k, fita, A0, x, T, AtimeT, oldx, oldtime, v, E0, E;
 	float x0;
 	Caction();
-    ~Caction();	                //Деструктор
-    void InitBall();            //Инициализация начальных значений, однопроходные расчёты
+	~Caction();
 
     double ktime, length;
 };
