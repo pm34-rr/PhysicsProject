@@ -66,7 +66,9 @@ SOURCES += src/main.cpp \
     src/MathLib/optimization.cpp \
     src/MathLib/solvers.cpp \
     src/MathLib/specialfunctions.cpp \
-    src/MathLib/statistics.cpp
+    src/MathLib/statistics.cpp \
+    src/AppMenu.cpp \
+    src/Plot.cpp
 
 HEADERS += src/mainwindow.h \
            src/cscene3d.h \
@@ -89,7 +91,9 @@ HEADERS += src/mainwindow.h \
     src/MathLib/solvers.h \
     src/MathLib/specialfunctions.h \
     src/MathLib/statistics.h \
-    src/MathLib/stdafx.h
+    src/MathLib/stdafx.h \
+    src/AppMenu.h \
+    src/Plot.h
 
 FORMS   += \
            src/mainwindow.ui
