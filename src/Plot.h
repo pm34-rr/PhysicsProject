@@ -6,7 +6,7 @@ class Graph : public QWidget
 {
 	Q_OBJECT
 public:
-	explicit Graph( const QString & dependenceType );
+	explicit Graph( QWidget * parent, const QString & dependenceType );
 	~Graph();
 
 protected:

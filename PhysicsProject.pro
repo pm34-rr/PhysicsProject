@@ -11,8 +11,6 @@
 
 # ==============================================================================
 
-DEFINES += VERSION_NUMBER=\\\"v0.39\\\"
-
 TARGET = VLR
 TEMPLATE = app
 
@@ -39,12 +37,6 @@ greaterThan(QT_MAJOR_VERSION, 4) {
     }
 }
 
-win32:lessThan(QT_VERSION, 4.5.0) {
-    win32-g++*|win32-msvc|win32-msvc.net|win32-msvc200* {
-        DEFINES += HAVE_OLD_QT
-    }
-}
-
 SOURCES += src/main.cpp \
            src/mainwindow.cpp \
            src/cscene3d.cpp \
@@ -68,7 +60,8 @@ SOURCES += src/main.cpp \
     src/MathLib/specialfunctions.cpp \
     src/MathLib/statistics.cpp \
     src/AppMenu.cpp \
-    src/Plot.cpp
+    src/Plot.cpp \
+    src/WindowDevelopers.cpp
 
 HEADERS += src/mainwindow.h \
            src/cscene3d.h \
@@ -93,22 +86,21 @@ HEADERS += src/mainwindow.h \
     src/MathLib/statistics.h \
     src/MathLib/stdafx.h \
     src/AppMenu.h \
-    src/Plot.h
+    src/Plot.h \
+    src/WindowDevelopers.h
 
 FORMS   += \
            src/mainwindow.ui
 
 win32 {
-  RESOURCES += src/resources/manual/win32/manual.qrc
   RC_FILE += src/resources/icon.rc
 }
 
-RESOURCES += src/resources/mres.qrc \
-             src/resources/help/help.qrc \
-             src/resources/menuicons/menuicons.qrc \
+RESOURCES += \
              src/resources/models/m_cyllinder.qrc \
     src/resources/models/lowpoly/m_wall_left.qrc \
-    src/resources/models/lowpoly/m_wall_right.qrc
+    src/resources/models/lowpoly/m_wall_right.qrc \
+    src/resources/resources.qrc
 
 use_hipoly {
   RESOURCES +=
@@ -149,4 +141,3 @@ CONFIG += warn_on
     DEFINES += _CRT_SECURE_NO_WARNINGS
     DEFINES += _USE_MATH_DEFINES
 }
-

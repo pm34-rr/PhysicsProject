@@ -14,7 +14,7 @@
 
 typedef std::vector<vd> vvd;
 
-Graph::Graph( const QString & dependenceType ):
+Graph::Graph( QWidget * parent, const QString & dependenceType ):
 	QWidget( nullptr )
 {
 	setAttribute( Qt::WA_DeleteOnClose );
@@ -39,6 +39,9 @@ Graph::Graph( const QString & dependenceType ):
 
 		setStyleSheet( "QLabel { font: 18px bold; }" );
 		_dataDefined = false;
+
+		move( parent->x() + (parent->width() - width()) / 2 , parent->y() + (parent->height() - height()) / 2 );
+
 		return;
 	}
 	_dataDefined = true;
@@ -47,7 +50,7 @@ Graph::Graph( const QString & dependenceType ):
 
 
 	vd omegas = theCalcs.getFrequency();
-	for ( int i = 0; i < omegas.size(); ++i )
+	for ( uint i = 0; i < omegas.size(); ++i )
 		omegas[i] = pow( omegas[i], -1 );
 	double maxFreq = *std::max_element( omegas.begin(), omegas.end() );
 	_period =  2 * M_PI * maxFreq * 4;
@@ -267,7 +270,18 @@ void Graph::paintEvent( QPaintEvent * event )
 		}
 	}
 	else {
-
+		for ( j = 0; j < n; ++j ) {
+			pen.setColor( colors[j] );
+			painter.setPen( pen );
+			pt2.setX( LEFT_PADDING );
+			pt2.setY( mid + _V[j][0] * MAX_Y );
+			for ( i = 1; i < _countOfFuncPoints; ++i ) {
+				pt1 = pt2;
+				pt2.setX( LEFT_PADDING + timeStep * i );
+				pt2.setY( mid + _V[j][i] * MAX_Y );
+				painter.drawLine( pt1, pt2 );
+			}
+		}
 	}
 
 	// drawing table of colors

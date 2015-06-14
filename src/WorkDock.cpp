@@ -2,12 +2,17 @@
 
 #include "Storage.h"
 
+#include <QtGui/QPixmap>
+#include <QtGui/QBitmap>
+
 #include <QtWidgets/QSlider>
 #include <QtWidgets/QLCDNumber>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QBoxLayout>
+
+
 
 const int PADDING = 0;
 const int PART_PADDING = 15;
@@ -24,6 +29,7 @@ WorkDock::WorkDock( QWidget * parent ):
 	const int LABEL_NUM_WIDTH = 40;
 
 	setFixedWidth( 199);
+	setMinimumHeight( 768 );
 
 	_started = false;
 
@@ -129,9 +135,9 @@ WorkDock::WorkDock( QWidget * parent ):
 	_timerNumber->move( _timeLabel->x(), _timeLabel->y() + _timeLabel->height() - 3*PADDING );
 
 	_controlPanelLabel = new QLabel( tr( "Control panel" ), this );
-	_controlPanelLabel->move( LEFT_LEFT_ALIGN, _timerNumber->y() + _timerNumber->height() + PADDING );
+	_controlPanelLabel->move( LEFT_LEFT_ALIGN, _timerNumber->y() + _timerNumber->height() );
 	_speedLabel = new QLabel( tr( "Experiment speed [%]" ), this );
-	_speedLabel->move( LEFT_ALIGN, _controlPanelLabel->y() + _controlPanelLabel->height() - PADDING );
+	_speedLabel->move( LEFT_ALIGN, _controlPanelLabel->y() + _controlPanelLabel->height() - 3*PADDING );
 	_speedSlider = new QSlider( Qt::Horizontal, this );
 	_speedSlider->resize( SLIDER_SIZE );
 	_speedSlider->move( LEFT_ALIGN, _speedLabel->y() + _speedLabel->height() - 3*PADDING );
@@ -166,6 +172,16 @@ WorkDock::WorkDock( QWidget * parent ):
 	_resetButton->resize( BUTTON_SIZE );
 	_resetButton->move( _startButton->x() + _startButton->width() + 5, _startButton->y() );
 	connect( _resetButton, &QPushButton::released, this, &WorkDock::experimentResets );
+
+	_nstuLogoLabel = new QLabel( this );
+	_nstuLogoLabel->setAlignment( Qt::AlignCenter );
+	_nstuLogoLabel->setPixmap( QPixmap( ":/mres/NSTU_Logo.png" ) );
+	_nstuLogoLabel->setMask( _nstuLogoLabel->pixmap()->mask() );
+	_yearLabel = new QLabel( tr( "Novosibirsk 2015" ), this );
+	_yearLabel->resize( width(), _yearLabel->height() );
+	_yearLabel->setAlignment( Qt::AlignCenter );
+	_yearLabel->move( 0, height() - _yearLabel->height() - 20 );
+	_nstuLogoLabel->move( (width() - _nstuLogoLabel->pixmap()->width()) / 2, height() - _yearLabel->height() - _nstuLogoLabel->pixmap()->height() - 20 );
 
 	// ========================================================================================
 	// ======================== Connects' part ================================================
@@ -271,21 +287,6 @@ void WorkDock::changeLayoutsAndBodies( int bodiesCount )
 	_timeLabel->move( _timeLabel->x(), _xSlider[n]->y() + _xSlider[n]->height() + PADDING );
 	_timerNumber->move( _timeLabel->x(), _timeLabel->y() + _timeLabel->height() - 3*PADDING );
 
-	/*
-	_controlPanelLabel->move( LEFT_LEFT_ALIGN, _timerNumber->y() + _timerNumber->height() + PADDING );
-	_speedLabel->move( LEFT_ALIGN, _controlPanelLabel->y() + _controlPanelLabel->height() + PADDING );
-	_speedSlider->move( LEFT_ALIGN, _speedLabel->y() + _speedLabel->height() + PADDING );
-	_speedLabelNum->move( _speedSlider->x() + _speedSlider->width() + PADDING, _speedSlider->y() );
-
-	_graphicsLabel->move( LEFT_ALIGN, _speedSlider->y() + _speedSlider->height() + PART_PADDING );
-	_graphicsSlider->move( LEFT_ALIGN, _graphicsLabel->y() + _graphicsLabel->height() + PADDING );
-	_graphicsSpeed->move( width() - LEFT_ALIGN - 40, _graphicsSlider->y() + _graphicsSlider->height() + PADDING );
-	_graphicsQuality->move( LEFT_ALIGN, _graphicsSpeed->y() );
-
-	_startButton->move( LEFT_LEFT_ALIGN, _graphicsQuality->y() + _graphicsQuality->height() + PART_PADDING );
-	_resetButton->move( _startButton->x() + _startButton->width() + PADDING, _startButton->y() );
-	*/
-
 	_controlPanelLabel->move( LEFT_LEFT_ALIGN, _timerNumber->y() + _timerNumber->height() + PADDING );
 	_speedLabel->move( LEFT_ALIGN, _controlPanelLabel->y() + _controlPanelLabel->height() - PADDING );
 	_speedSlider->move( LEFT_ALIGN, _speedLabel->y() + _speedLabel->height() - 3*PADDING );
@@ -298,6 +299,9 @@ void WorkDock::changeLayoutsAndBodies( int bodiesCount )
 
 	_startButton->move( LEFT_LEFT_ALIGN, _graphicsQuality->y() + _graphicsQuality->height() + PART_PADDING );
 	_resetButton->move( _startButton->x() + _startButton->width() + 5, _startButton->y() );
+
+	_yearLabel->move( 0, _yearLabel->y() + (bodiesCount - theStorage.getNumOfSprings() + 1) * 32 );
+	_nstuLogoLabel->move( _nstuLogoLabel->x(), _nstuLogoLabel->y() + (bodiesCount - theStorage.getNumOfSprings() + 1) * 32);
 
 	if ( (theStorage.getNumOfSprings() - 1) != bodiesCount )
 		emit needResize( bodiesCount - theStorage.getNumOfSprings() + 1 );

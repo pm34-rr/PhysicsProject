@@ -20,8 +20,8 @@ public:
 	void setTime( QString );
 
 private:
-	void changeLayoutsAndBodies( int bodiesCount );
 	void disableItems( bool dicision );
+	void changeLayoutsAndBodies( int bodiesCount );
 
 	void experimentStarts();
 	void experimentResets();
@@ -71,6 +71,9 @@ private:
 	QLabel *		_qualityLabelNum;
 	QLabel *		_graphicsSpeed;
 	QLabel *		_graphicsQuality;
+
+	QLabel *		_nstuLogoLabel;
+	QLabel *		_yearLabel;
 
 signals:
 	void experimentStarted();

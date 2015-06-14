@@ -20,7 +20,6 @@ MainWindow::MainWindow(QWidget *parent) :
 	AppMenu * menu = new AppMenu( this );
 	setMenuBar( menu );
 
-	//дефолтные значения(пример)
 	int n = 4;
 	for ( int i = 0; i < n; i++) {
 		m_action[i].m = 0.2;
@@ -39,6 +38,8 @@ MainWindow::MainWindow(QWidget *parent) :
 	mainLyt->addWidget( ui->widget );
 	mainLyt->addWidget( _workDock );
 	_mainWidget->setLayout( mainLyt );
+
+	setMinimumHeight( 768 );
 
 	setCentralWidget( _mainWidget );
 	qtmr = new QTimer( this );

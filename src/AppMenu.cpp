@@ -1,6 +1,7 @@
 #include "AppMenu.h"
 
 #include "Plot.h"
+#include "WindowDevelopers.h"
 
 AppMenu::AppMenu( QWidget * parent ):
 	QMenuBar( parent )
@@ -37,19 +38,22 @@ AppMenu::~AppMenu()
 
 void AppMenu::showGraphXt()
 {
-	Graph * graph = new Graph( "xt" );
+	QWidget * prnt = dynamic_cast<QWidget*>( parent() );
+	Graph * graph = new Graph( prnt, "xt" );
 	graph->show();
 }
 
 void AppMenu::showGraphVt()
 {
-	Graph * graph = new Graph( "vt" );
+	QWidget * prnt = dynamic_cast<QWidget*>( parent() );
+	Graph * graph = new Graph( prnt, "vt" );
 	graph->show();
 }
 
 void AppMenu::showGraphVx()
 {
-	Graph * graph = new Graph( "vx" );
+	QWidget * prnt = dynamic_cast<QWidget*>( parent() );
+	Graph * graph = new Graph( prnt, "vx" );
 	graph->show();
 }
 
@@ -60,6 +64,7 @@ void AppMenu::showAboutExperiment()
 
 void AppMenu::showAboutDevelopers()
 {
-
+	WindowDevelopers * about = new WindowDevelopers( this );
+	about->show();
 }
 
