@@ -3,7 +3,8 @@
 #include "main.h"
 #include "Storage.h"
 #include "Calculations.h"
-
+#include <gl\GL.h>
+#include <gl\GLU.h>
 #include <cmath>
 
 #include <QtWidgets>
@@ -69,7 +70,7 @@ void Cscene3D::timerEvent(QTimerEvent *)
 
 void Cscene3D::initializeGL()
 {
-    qglClearColor(Qt::white);
+    glClearColor(0.8,0.8,0.8,0.0);
     glEnable(GL_DEPTH_TEST);
     glShadeModel(GL_FLAT);
     glEnable(GL_CULL_FACE);
@@ -77,7 +78,10 @@ void Cscene3D::initializeGL()
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
 
-    wall_left.loadModelData(":/data/m_wall_left.ms3d");
+   // wall_left.loadModelData(":/data/m_wall_left.ms3d");
+    wall_left_2.loadModelData(":/data/m_wall_left_2.ms3d");
+    wall_left_3.loadModelData(":/data/m_wall_left_3.ms3d");
+    wall_left_4.loadModelData(":/data/m_wall_left_4.ms3d");
     wall_right.loadModelData(":/data/m_wall_right.ms3d");
     spring_start.loadModelData(":/data/m_spring_start.ms3d");
     spring_end.loadModelData(":/data/m_spring_end.ms3d");
@@ -129,36 +133,49 @@ void Cscene3D::paintGL()
 	glScalef(nSca, nSca, nSca);
 	glRotatef(xRot, 0.0f, -1.0f, 0.0f);
 	glRotatef(90.0f, 1.0f, 0.0f,0.0f);
+   // gluLookAt(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
+
+    int n = theStorage.getNumOfSprings() - 1;
 
 	float balance = - 0.2 - 0.8 - (0.01 * 9.81 / 50.0);
 	float spring_step = -0.3f;
 	glTranslatef(0.0f, shift, 0.0f);
-	wall_left.draw();
+    //wall_left.draw();
+    switch(n)
+    {
+    case 2:
+        wall_left_2.draw(); break;
+    case 3:
+        wall_left_3.draw(); break;
+    case 4:
+        wall_left_4.draw(); break;
+    }
+
 	glTranslatef(0.0f, -2*shift, 0.0f);
 	spring_end.draw();
 	wall_right.draw();
 	glTranslatef(0.0f, 2*shift, 0.0f);
 	double springs_length = 0;
-	int n = theStorage.getNumOfSprings() - 1;
 
 
 	shift =( -(n+1)*balance - n*spring_step)/2.0;
 
 	for(int i = 0; i < n; i++)
-	{
-		spring_start.draw();
-
+    {
 		if(i!=0)
 		{
+
 			springs[i].resize( m_action[i-1].x - balance - m_action[i].x);
 			glTranslatef(0.0f, i*(balance+spring_step) + m_action[i-1].x ,0.0f);
+            spring_start.draw();
 			springs[i].draw();
 			glTranslatef(0.0f, -i*(balance+spring_step) - m_action[i-1].x ,0.0f);
 		}
 		else
 		{
+            spring_start.draw();
 			springs[i].resize(- m_action[i].x - balance);
-			springs[i].draw();
+			springs[i].draw();            
 		}
 
 		glTranslatef(0.0f, m_action[i].x + (i+1)*balance + i*spring_step,0.0f);
@@ -172,6 +189,7 @@ void Cscene3D::paintGL()
 	spring_start.draw();
 	springs[n].resize(2*shift + n*balance + n*spring_step + m_action[n-1].x);
 	springs[n].draw();
+
 }
 
 

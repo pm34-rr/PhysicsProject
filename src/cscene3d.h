@@ -34,7 +34,7 @@ protected:
 
 private:
 	//модели
-	CMilkshapeModel wall_left, wall_right, spring_start, spring_end, sphere;
+    CMilkshapeModel wall_left_2, wall_left_3, wall_left_4, wall_right, spring_start, spring_end, sphere;
 	CModelSpring springs[5];
 
 	GLfloat xRot;
