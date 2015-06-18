@@ -100,7 +100,10 @@ RESOURCES += \
              src/resources/models/m_cyllinder.qrc \
     src/resources/models/lowpoly/m_wall_left.qrc \
     src/resources/models/lowpoly/m_wall_right.qrc \
-    src/resources/resources.qrc
+    src/resources/resources.qrc \
+    src/resources/models/lowpoly/m_wall_left_2.qrc \
+    src/resources/models/lowpoly/m_wall_left_3.qrc \
+    src/resources/models/lowpoly/m_wall_left_4.qrc
 
 use_hipoly {
   RESOURCES +=

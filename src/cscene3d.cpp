@@ -3,8 +3,7 @@
 #include "main.h"
 #include "Storage.h"
 #include "Calculations.h"
-#include <gl\GL.h>
-#include <gl\GLU.h>
+
 #include <cmath>
 
 #include <QtWidgets>
