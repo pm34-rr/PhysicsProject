@@ -13,6 +13,9 @@ protected:
 	virtual void paintEvent( QPaintEvent * event );
 
 private:
+	void drawPlot( int x, int y, int number );
+	void drawColorTable( int n );
+
 	double	_period;
 	double	_gridStepX;
 	double	_gridStepY;
@@ -21,6 +24,7 @@ private:
 	QString _depX;
 	QString _depY;
 
-	std::vector<std::vector<double> > _X;
-	std::vector<std::vector<double> > _V;
+	std::vector<std::vector<double> >	_X;
+	std::vector<std::vector<double> >	_V;
+	std::vector<QColor>					_colors;
 };
