@@ -64,7 +64,8 @@ SOURCES += src/main.cpp \
     src/MathLib/statistics.cpp \
     src/AppMenu.cpp \
     src/Plot.cpp \
-    src/WindowDevelopers.cpp
+    src/WindowDevelopers.cpp \
+    src/SplashScreen.cpp
 
 HEADERS += src/mainwindow.h \
            src/cscene3d.h \
@@ -90,7 +91,8 @@ HEADERS += src/mainwindow.h \
     src/MathLib/stdafx.h \
     src/AppMenu.h \
     src/Plot.h \
-    src/WindowDevelopers.h
+    src/WindowDevelopers.h \
+    src/SplashScreen.h
 
 FORMS   += \
            src/mainwindow.ui

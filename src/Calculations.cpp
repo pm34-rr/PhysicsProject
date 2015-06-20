@@ -2,6 +2,8 @@
 
 #include "MathLib/linalg.h"
 
+#include <QtCore/QtMath>
+
 typedef std::vector<std::vector<double> > vvd;
 
 Calculations * Calculations::_calcs = nullptr;

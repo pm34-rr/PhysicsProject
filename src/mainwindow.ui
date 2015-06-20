@@ -11,10 +11,10 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Виртуальная лаборатория</string>
+   <string>Виртуальная лаборатория: свободные колебания системы связанных пружинных маятников</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="resources/mres.qrc">
+   <iconset resource="resources/resources.qrc">
     <normaloff>:/mres/ball.ico</normaloff>:/mres/ball.ico</iconset>
   </property>
   <property name="locale">
@@ -49,7 +49,7 @@
   <tabstop>centralWidget</tabstop>
  </tabstops>
  <resources>
-  <include location="resources/mres.qrc"/>
+  <include location="resources/resources.qrc"/>
  </resources>
  <connections/>
 </ui>

@@ -1,11 +1,13 @@
-#include <QApplication>
+#include <QtWidgets/QApplication>
+
 #include "mainwindow.h"
+#include "SplashScreen.h"
 
 int main( int argc, char * argv[] )
 {
     QGLFormat fmt;
-    fmt.setSampleBuffers(true);
-    fmt.setSamples(16); // 2, 4, 8, 16
+	fmt.setSampleBuffers( true );
+	fmt.setSamples( 16 );
     QGLFormat::setDefaultFormat(fmt);
 
 	QApplication app( argc, argv );
@@ -14,8 +16,9 @@ int main( int argc, char * argv[] )
 	myTranslator.load( ":/PhysicsProject_ru.qm" );
 	app.installTranslator( &myTranslator );
 
-	MainWindow w;
-	w.show();
+	SplashScreen screen;
+	screen.show();
+	screen.startTimer();
 
 	return app.exec();
 }
