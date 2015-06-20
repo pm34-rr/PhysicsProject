@@ -22,13 +22,20 @@ const int LEFT_ALIGN = LEFT_LEFT_ALIGN + 6;
 WorkDock::WorkDock( QWidget * parent ):
 	QWidget( parent )
 {
+	const int WIDGET_WIDTH = 255;
+
 	const int FIRST_ITEM_Y = 10;
-	const QSize SLIDER_SIZE( 143, 20 );
+	const QSize SLIDER_SIZE( WIDGET_WIDTH - 50, 20 );
 	const QSize TIMER_SIZE( 50, 50 );
-	const QSize BUTTON_SIZE( 88, 40 );
+	const QSize BUTTON_SIZE( (WIDGET_WIDTH - 3 * LEFT_LEFT_ALIGN) / 2, 40 );
 	const int LABEL_NUM_WIDTH = 40;
 
-	setFixedWidth( 199);
+	const int AFTER_SLDIER_PADDDING = 5;
+
+	const int LEFT_SHIFT_BORDER = -40;
+	const int RIGHT_SHIFT_BORDER = - LEFT_SHIFT_BORDER;
+
+	setFixedWidth( WIDGET_WIDTH );
 	setMinimumHeight( 768 );
 
 	_started = false;
@@ -37,7 +44,7 @@ WorkDock::WorkDock( QWidget * parent ):
 	_bodiesCount->move( LEFT_LEFT_ALIGN, FIRST_ITEM_Y );
 	_bodyCountBox = new QComboBox( this );
 	_bodyCountBox->move( LEFT_LEFT_ALIGN, _bodiesCount->y() + _bodiesCount->height() - 10);
-	_bodyCountBox->resize( 181, 30 );
+	_bodyCountBox->resize( WIDGET_WIDTH - 18, 30 );
 	_bodyCountBox->addItem( "2" );
 	_bodyCountBox->addItem( "3" );
 	_bodyCountBox->addItem( "4" );
@@ -56,7 +63,7 @@ WorkDock::WorkDock( QWidget * parent ):
 	connect( _massSlider, &QSlider::valueChanged, this, &WorkDock::changeMass );
 	_massLabelNum = new QLabel( "0.2", this );
 	_massLabelNum->resize( LABEL_NUM_WIDTH, _massLabelNum->height() );
-	_massLabelNum->move( _massSlider->x() + _massSlider->width() + PADDING, _massSlider->y() );
+	_massLabelNum->move( _massSlider->x() + _massSlider->width() + PADDING, _massSlider->y() - AFTER_SLDIER_PADDDING );
 
 	_kLabel = new QLabel( tr( "Stiffness coefficient [N/m]" ), this );
 	_kLabel->move( LEFT_ALIGN, _massSlider->y() + _massSlider->height() + PADDING );
@@ -68,7 +75,7 @@ WorkDock::WorkDock( QWidget * parent ):
 	connect( _kSlider, &QSlider::valueChanged, this, &WorkDock::changeK );
 	_kLabelNum = new QLabel( "25", this );
 	_kLabelNum->resize( LABEL_NUM_WIDTH, _kLabelNum->height() );
-	_kLabelNum->move( _kSlider->x() + _kSlider->width() + PADDING, _kSlider->y() );
+	_kLabelNum->move( _kSlider->x() + _kSlider->width() + PADDING, _kSlider->y() - AFTER_SLDIER_PADDDING );
 
 	_xLabel.push_back( new QLabel( tr( "Starting shift of the 1st body [m]" ), this ) );
 	_xLabel[0]->move( LEFT_ALIGN, (_kSlider->y() + _kSlider->height() + PADDING  ) );
@@ -76,11 +83,11 @@ WorkDock::WorkDock( QWidget * parent ):
 	_xSlider[0]->resize( SLIDER_SIZE );
 	_xSlider[0]->move( LEFT_ALIGN, _xLabel[0]->y() + _xLabel[0]->height() - 2*PADDING );
 	_xSlider[0]->setFocusPolicy( Qt::NoFocus );
-	_xSlider[0]->setRange( -80, 80 );
+	_xSlider[0]->setRange( LEFT_SHIFT_BORDER, RIGHT_SHIFT_BORDER );
 	connect( _xSlider[0], &QSlider::valueChanged, this, &WorkDock::changeShift1 );
 	_xLabelNum.push_back( new QLabel( "0", this ) );
 	_xLabelNum[0]->resize( LABEL_NUM_WIDTH, _xLabelNum[0]->height() );
-	_xLabelNum[0]->move( _xSlider[0]->x() + _xSlider[0]->width() + PADDING, _xSlider[0]->y() );
+	_xLabelNum[0]->move( _xSlider[0]->x() + _xSlider[0]->width() + PADDING, _xSlider[0]->y() - AFTER_SLDIER_PADDDING );
 
 	_xLabel.push_back( new QLabel( tr( "Starting shift of the 2nd body [m]" ), this ) );
 	_xLabel[1]->move( LEFT_ALIGN, _xSlider[0]->y() + _xSlider[0]->height() + PADDING );
@@ -88,11 +95,11 @@ WorkDock::WorkDock( QWidget * parent ):
 	_xSlider[1]->resize( SLIDER_SIZE );
 	_xSlider[1]->move( LEFT_ALIGN, _xLabel[1]->y() + _xLabel[1]->height() - 2*PADDING );
 	_xSlider[1]->setFocusPolicy( Qt::NoFocus );
-	_xSlider[1]->setRange( -80, 80 );
+	_xSlider[1]->setRange( LEFT_SHIFT_BORDER, RIGHT_SHIFT_BORDER );
 	connect( _xSlider[1], &QSlider::valueChanged, this, &WorkDock::changeShift2 );
 	_xLabelNum.push_back( new QLabel( "0", this ) );
 	_xLabelNum[1]->resize( LABEL_NUM_WIDTH, _xLabelNum[1]->height() );
-	_xLabelNum[1]->move( _xSlider[1]->x() + _xSlider[1]->width() + PADDING, _xSlider[1]->y() );
+	_xLabelNum[1]->move( _xSlider[1]->x() + _xSlider[1]->width() + PADDING, _xSlider[1]->y() - AFTER_SLDIER_PADDDING );
 
 
 	_xLabel.push_back( new QLabel( tr( "Starting shift of the 3rd body [m]" ), this ) );
@@ -103,11 +110,11 @@ WorkDock::WorkDock( QWidget * parent ):
 	_xSlider[2]->move( LEFT_ALIGN, _xLabel[2]->y() + _xLabel[2]->height() - 2*PADDING );
 	_xSlider[2]->setFocusPolicy( Qt::NoFocus );
 	_xSlider[2]->hide();
-	_xSlider[2]->setRange( -80, 80 );
+	_xSlider[2]->setRange( LEFT_SHIFT_BORDER, RIGHT_SHIFT_BORDER );
 	connect( _xSlider[2], &QSlider::valueChanged, this, &WorkDock::changeShift3 );
 	_xLabelNum.push_back( new QLabel( "0", this ) );
 	_xLabelNum[2]->resize( LABEL_NUM_WIDTH, _xLabelNum[2]->height() );
-	_xLabelNum[2]->move( _xSlider[2]->x() + _xSlider[2]->width() + PADDING, _xSlider[2]->y() );
+	_xLabelNum[2]->move( _xSlider[2]->x() + _xSlider[2]->width() + PADDING, _xSlider[2]->y() - AFTER_SLDIER_PADDDING );
 	_xLabelNum[2]->hide();
 
 	_xLabel.push_back( new QLabel( tr( "Starting shift of the 4th body [m]" ), this ) );
@@ -117,17 +124,17 @@ WorkDock::WorkDock( QWidget * parent ):
 	_xSlider[3]->resize( SLIDER_SIZE );
 	_xSlider[3]->move( LEFT_ALIGN, _xLabel[3]->y() + _xLabel[3]->height() - 2*PADDING );
 	_xSlider[3]->setFocusPolicy( Qt::NoFocus );
-	_xSlider[3]->setRange( -80, 80 );
+	_xSlider[3]->setRange( LEFT_SHIFT_BORDER, RIGHT_SHIFT_BORDER );
 	_xSlider[3]->hide();
 	connect( _xSlider[3], &QSlider::valueChanged, this, &WorkDock::changeShift4 );
 	_xLabelNum.push_back( new QLabel( "0", this ) );
 	_xLabelNum[3]->resize( LABEL_NUM_WIDTH, _xLabelNum[3]->height() );
-	_xLabelNum[3]->move( _xSlider[3]->x() + _xSlider[3]->width() + PADDING, _xSlider[3]->y() );
+	_xLabelNum[3]->move( _xSlider[3]->x() + _xSlider[3]->width() + PADDING, _xSlider[3]->y() - AFTER_SLDIER_PADDDING );
 	_xLabelNum[3]->hide();
 
 
 	_timeLabel = new QLabel( tr( "Time [s]" ), this );
-	_timeLabel->move( 120, _xSlider[1]->y() + _xSlider[1]->height() + PADDING );
+	_timeLabel->move( LEFT_LEFT_ALIGN, _xSlider[1]->y() + _xSlider[1]->height() + PADDING );
 	_timerNumber = new QLCDNumber( this );
 	_timerNumber->setDecMode();
 	_timerNumber->setSegmentStyle(QLCDNumber::Flat);
@@ -160,7 +167,7 @@ WorkDock::WorkDock( QWidget * parent ):
 	_graphicsSlider->setValue( 40 );
 	connect( _graphicsSlider, &QSlider::valueChanged, this, &WorkDock::changeQuality );
 	_graphicsSpeed = new QLabel( tr( "Speed" ), this );
-	_graphicsSpeed->move( width() - LEFT_ALIGN - 40, _graphicsSlider->y() + _graphicsSlider->height() );
+	_graphicsSpeed->move( width() - LEFT_ALIGN - 50, _graphicsSlider->y() + _graphicsSlider->height() );
 	_graphicsQuality = new QLabel( tr( "Quality" ), this );
 	_graphicsQuality->move( LEFT_ALIGN, _graphicsSpeed->y() );
 
@@ -170,18 +177,18 @@ WorkDock::WorkDock( QWidget * parent ):
 	connect( _startButton, &QPushButton::released, this, &WorkDock::experimentStarts );
 	_resetButton = new QPushButton( tr( "Reset" ), this );
 	_resetButton->resize( BUTTON_SIZE );
-	_resetButton->move( _startButton->x() + _startButton->width() + 5, _startButton->y() );
+	_resetButton->move( _startButton->x() + _startButton->width() + LEFT_LEFT_ALIGN, _startButton->y() );
 	connect( _resetButton, &QPushButton::released, this, &WorkDock::experimentResets );
 
 	_nstuLogoLabel = new QLabel( this );
 	_nstuLogoLabel->setAlignment( Qt::AlignCenter );
 	_nstuLogoLabel->setPixmap( QPixmap( ":/mres/NSTU_Logo.png" ) );
 	_nstuLogoLabel->setMask( _nstuLogoLabel->pixmap()->mask() );
+	_nstuLogoLabel->move( (width() - _nstuLogoLabel->pixmap()->width()) / 2, _resetButton->y() + _resetButton->height() + PART_PADDING );
 	_yearLabel = new QLabel( tr( "Novosibirsk 2015" ), this );
 	_yearLabel->resize( width(), _yearLabel->height() );
 	_yearLabel->setAlignment( Qt::AlignCenter );
-	_yearLabel->move( 0, height() - _yearLabel->height() - 20 );
-	_nstuLogoLabel->move( (width() - _nstuLogoLabel->pixmap()->width()) / 2, height() - _yearLabel->height() - _nstuLogoLabel->pixmap()->height() - 20 );
+	_yearLabel->move( 0, _nstuLogoLabel->y() + _nstuLogoLabel->pixmap()->height() );
 
 	// ========================================================================================
 	// ======================== Connects' part ================================================
@@ -284,24 +291,22 @@ void WorkDock::changeLayoutsAndBodies( int bodiesCount )
 	}
 	n = bodiesCount - 1;
 
-	_timeLabel->move( _timeLabel->x(), _xSlider[n]->y() + _xSlider[n]->height() + PADDING );
+	_timeLabel->move( 120, _xSlider[n]->y() + _xSlider[n]->height() + PADDING );
 	_timerNumber->move( _timeLabel->x(), _timeLabel->y() + _timeLabel->height() - 3*PADDING );
 
-	_controlPanelLabel->move( LEFT_LEFT_ALIGN, _timerNumber->y() + _timerNumber->height() + PADDING );
-	_speedLabel->move( LEFT_ALIGN, _controlPanelLabel->y() + _controlPanelLabel->height() - PADDING );
+	_controlPanelLabel->move( LEFT_LEFT_ALIGN, _timerNumber->y() + _timerNumber->height() );
+	_speedLabel->move( LEFT_ALIGN, _controlPanelLabel->y() + _controlPanelLabel->height() - 3*PADDING );
 	_speedSlider->move( LEFT_ALIGN, _speedLabel->y() + _speedLabel->height() - 3*PADDING );
 	_speedLabelNum->move( _speedSlider->x() + _speedSlider->width() + PADDING, _speedSlider->y() );
 
 	_graphicsLabel->move( LEFT_ALIGN, _speedSlider->y() + _speedSlider->height() + PADDING );
 	_graphicsSlider->move( LEFT_ALIGN, _graphicsLabel->y() + _graphicsLabel->height() - 3*PADDING );
-	_graphicsSpeed->move( width() - LEFT_ALIGN - 40, _graphicsSlider->y() + _graphicsSlider->height() );
+	_graphicsSpeed->move( width() - LEFT_ALIGN - 50, _graphicsSlider->y() + _graphicsSlider->height() );
 	_graphicsQuality->move( LEFT_ALIGN, _graphicsSpeed->y() );
-
 	_startButton->move( LEFT_LEFT_ALIGN, _graphicsQuality->y() + _graphicsQuality->height() + PART_PADDING );
-	_resetButton->move( _startButton->x() + _startButton->width() + 5, _startButton->y() );
-
-	_yearLabel->move( 0, _yearLabel->y() + (bodiesCount - theStorage.getNumOfSprings() + 1) * 32 );
-	_nstuLogoLabel->move( _nstuLogoLabel->x(), _nstuLogoLabel->y() + (bodiesCount - theStorage.getNumOfSprings() + 1) * 32);
+	_resetButton->move( _startButton->x() + _startButton->width() + LEFT_LEFT_ALIGN, _startButton->y() );
+	_nstuLogoLabel->move( (width() - _nstuLogoLabel->pixmap()->width()) / 2, _resetButton->y() + _resetButton->height() + PART_PADDING );
+	_yearLabel->move( 0, _nstuLogoLabel->y() + _nstuLogoLabel->pixmap()->height() );
 
 	if ( (theStorage.getNumOfSprings() - 1) != bodiesCount )
 		emit needResize( bodiesCount - theStorage.getNumOfSprings() + 1 );

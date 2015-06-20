@@ -37,6 +37,9 @@ greaterThan(QT_MAJOR_VERSION, 4) {
     }
 }
 
+TRANSLATIONS += \
+    PhysicsProject_ru.ts
+
 SOURCES += src/main.cpp \
            src/mainwindow.cpp \
            src/cscene3d.cpp \
@@ -144,3 +147,5 @@ CONFIG += warn_on
     DEFINES += _CRT_SECURE_NO_WARNINGS
     DEFINES += _USE_MATH_DEFINES
 }
+
+DISTFILES +=

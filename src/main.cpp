@@ -10,6 +10,10 @@ int main( int argc, char * argv[] )
 
 	QApplication app( argc, argv );
 
+	QTranslator myTranslator;
+	myTranslator.load( ":/PhysicsProject_ru.qm" );
+	app.installTranslator( &myTranslator );
+
 	MainWindow w;
 	w.show();
 

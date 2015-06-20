@@ -11,7 +11,7 @@ AppMenu::AppMenu( QWidget * parent ):
 
 	QAction * graphics_xt = new QAction( tr( "Dependence X from t" ), graphicsMenu );
 	QAction * graphics_vt = new QAction( tr( "Dependence V from t" ), graphicsMenu );
-	QAction * graphics_vx = new QAction( tr( "Dependence X from V" ), graphicsMenu );
+	QAction * graphics_vx = new QAction( tr( "Dependence V from X" ), graphicsMenu );
 	graphicsMenu->addAction( graphics_xt );
 	graphicsMenu->addAction( graphics_vt );
 	graphicsMenu->addAction( graphics_vx );
@@ -21,7 +21,7 @@ AppMenu::AppMenu( QWidget * parent ):
 
 	addMenu( graphicsMenu );
 
-	QAction * about_experiment = new QAction( tr( "About axperiment" ), aboutMenu );
+	QAction * about_experiment = new QAction( tr( "About experiment" ), aboutMenu );
 	QAction * about_developers = new QAction( tr( "About developers" ), aboutMenu );
 	aboutMenu->addAction( about_experiment );
 	aboutMenu->addAction( about_developers );

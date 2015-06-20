@@ -42,7 +42,7 @@ WindowDevelopers::WindowDevelopers( QWidget * parent ):
 	lector->resize( width(), lector->height() );
 	lector->move( 0, third->y() + third->height() + 15 );
 
-	QLabel * lfirst = new QLabel( tr( "Baranov Alexandr Viktorovich" ), this );
+	QLabel * lfirst = new QLabel( tr( "Baranov Alexandr Viktorovich, Candidate of Physical and Mathematical Sciences, Associate Professor" ), this );
 	lfirst->setAlignment( Qt::AlignCenter );
 	lfirst->resize( width(), lfirst->height() );
 	lfirst->move( LEFT_PADDING, lector->y() + HEADER_PADDING );

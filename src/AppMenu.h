@@ -4,6 +4,8 @@
 
 class AppMenu : public QMenuBar
 {
+	Q_OBJECT
+
 public:
 	AppMenu( QWidget * parent = 0 );
 	~AppMenu();

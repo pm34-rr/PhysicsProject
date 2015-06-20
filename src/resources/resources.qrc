@@ -3,4 +3,7 @@
         <file>ball.ico</file>
         <file>NSTU_Logo.png</file>
     </qresource>
+    <qresource prefix="/">
+        <file>PhysicsProject_ru.qm</file>
+    </qresource>
 </RCC>
