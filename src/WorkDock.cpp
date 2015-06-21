@@ -4,6 +4,7 @@
 
 #include <QtGui/QPixmap>
 #include <QtGui/QBitmap>
+#include <QtGui/QPainter>
 
 #include <QtWidgets/QSlider>
 #include <QtWidgets/QLCDNumber>
@@ -23,7 +24,6 @@ WorkDock::WorkDock( QWidget * parent ):
 	QWidget( parent )
 {
 	const int WIDGET_WIDTH = 255;
-
 	const int FIRST_ITEM_Y = 10;
 	const QSize SLIDER_SIZE( WIDGET_WIDTH - 50, 20 );
 	const QSize TIMER_SIZE( 50, 50 );

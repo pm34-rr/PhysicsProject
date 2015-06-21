@@ -32,6 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	ui->setupUi( this );
 	_workDock = new WorkDock;
+	setStyleSheet( ".WorkDock { background: rgb( 200, 200, 200);}" );
 	_mainWidget = new QWidget;
 
 	QHBoxLayout * mainLyt = new QHBoxLayout;

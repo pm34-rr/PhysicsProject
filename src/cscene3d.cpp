@@ -14,6 +14,7 @@ int vfps = 10;
 const static float pi=3.141593f, k=pi/180.0f;
 int id_timer;
 static float shift;                                     //половина длины всей установки
+const float GRAY_TINT = 0.8f;
 
 Caction m_action[4];
 
@@ -49,9 +50,8 @@ void Cscene3D::actiontime()
 	double t = tot / 1000.0;
 	theCalcs.calculateShifts( t, _tempArray );
 	int n = _tempArray.size();
-	for ( int i = 0; i < n; ++i ) {
+	for ( int i = 0; i < n; ++i )
 		m_action[i].x = _tempArray[i];
-	}
 
 	updateGL();
 }
@@ -69,7 +69,7 @@ void Cscene3D::timerEvent(QTimerEvent *)
 
 void Cscene3D::initializeGL()
 {
-    glClearColor(0.8,0.8,0.8,0.0);
+	glClearColor( GRAY_TINT, GRAY_TINT, GRAY_TINT, 0.0 );
     glEnable(GL_DEPTH_TEST);
     glShadeModel(GL_FLAT);
     glEnable(GL_CULL_FACE);
@@ -77,7 +77,6 @@ void Cscene3D::initializeGL()
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
 
-   // wall_left.loadModelData(":/data/m_wall_left.ms3d");
     wall_left_2.loadModelData(":/data/m_wall_left_2.ms3d");
     wall_left_3.loadModelData(":/data/m_wall_left_3.ms3d");
     wall_left_4.loadModelData(":/data/m_wall_left_4.ms3d");
@@ -91,8 +90,7 @@ void Cscene3D::initializeGL()
 	int n = 5;
 	shift = ((((float)n)-1.0)*fabs(balance+m_action[1].x)+(((float)n)-1.0)*fabs(spring_step)+ fabs(balance+m_action[0].x))/2.0;
 
-	for(int i = 0; i < n; i++)
-    {
+	for(int i = 0; i < n; i++) {
         springs[i].loadModelData(":/data/m_cyllinder.ms3d");
         springs[i].init();
     }
@@ -103,9 +101,7 @@ void Cscene3D::initializeGL()
 
     glEnable(GL_LIGHTING);                              // Разрешить освещение
     glEnable (GL_LIGHT1);
-
     glShadeModel(GL_SMOOTH);
-
     glEnable(GL_MULTISAMPLE);
 }
 
@@ -132,23 +128,21 @@ void Cscene3D::paintGL()
 	glScalef(nSca, nSca, nSca);
 	glRotatef(xRot, 0.0f, -1.0f, 0.0f);
 	glRotatef(90.0f, 1.0f, 0.0f,0.0f);
-   // gluLookAt(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
 
     int n = theStorage.getNumOfSprings() - 1;
 
 	float balance = - 0.2 - 0.8 - (0.01 * 9.81 / 50.0);
 	float spring_step = -0.3f;
 	glTranslatef(0.0f, shift, 0.0f);
-    //wall_left.draw();
     switch(n)
-    {
-    case 2:
-        wall_left_2.draw(); break;
-    case 3:
-        wall_left_3.draw(); break;
-    case 4:
-        wall_left_4.draw(); break;
-    }
+	{
+		case 2:
+			wall_left_2.draw(); break;
+		case 3:
+			wall_left_3.draw(); break;
+		case 4:
+			wall_left_4.draw(); break;
+	}
 
 	glTranslatef(0.0f, -2*shift, 0.0f);
 	spring_end.draw();
@@ -159,19 +153,15 @@ void Cscene3D::paintGL()
 
 	shift =( -(n+1)*balance - n*spring_step)/2.0;
 
-	for(int i = 0; i < n; i++)
-    {
-		if(i!=0)
-		{
-
+	for(int i = 0; i < n; i++) {
+		if( i != 0) {
 			springs[i].resize( m_action[i-1].x - balance - m_action[i].x);
 			glTranslatef(0.0f, i*(balance+spring_step) + m_action[i-1].x ,0.0f);
             spring_start.draw();
 			springs[i].draw();
 			glTranslatef(0.0f, -i*(balance+spring_step) - m_action[i-1].x ,0.0f);
 		}
-		else
-		{
+		else {
             spring_start.draw();
 			springs[i].resize(- m_action[i].x - balance);
 			springs[i].draw();            
@@ -188,9 +178,7 @@ void Cscene3D::paintGL()
 	spring_start.draw();
 	springs[n].resize(2*shift + n*balance + n*spring_step + m_action[n-1].x);
 	springs[n].draw();
-
 }
-
 
 void Cscene3D::mousePressEvent(QMouseEvent* pe)
 {
@@ -221,59 +209,58 @@ void Cscene3D::wheelEvent(QWheelEvent* pe)
 void Cscene3D::keyPressEvent(QKeyEvent* pe)
 {
     switch (pe->key())
-    {
-    case Qt::Key_Plus:
-        scale_plus();
-        break;
+	{
+		case Qt::Key_Plus:
+			scale_plus();
+			break;
 
-    case Qt::Key_Equal:
-        scale_plus();
-        break;
+		case Qt::Key_Equal:
+			scale_plus();
+			break;
 
-    case Qt::Key_Minus:
-        scale_minus();
-        break;
+		case Qt::Key_Minus:
+			scale_minus();
+			break;
 
-    case Qt::Key_Up:
-        rotate_up();
-        break;
+		case Qt::Key_Up:
+			rotate_up();
+			break;
 
-    case Qt::Key_Down:
-        rotate_down();
-        break;
+		case Qt::Key_Down:
+			rotate_down();
+			break;
 
-    case Qt::Key_Left:
-        rotate_left();
-        break;
+		case Qt::Key_Left:
+			rotate_left();
+			break;
 
-    case Qt::Key_Right:
-        rotate_right();
-        break;
+		case Qt::Key_Right:
+			rotate_right();
+			break;
 
-    case Qt::Key_Z:
-        translate_down();
-        break;
+		case Qt::Key_Z:
+			translate_down();
+			break;
 
-    case Qt::Key_X:
-        translate_up();
-        break;
+		case Qt::Key_X:
+			translate_up();
+			break;
 
-    case Qt::Key_Space:
-        defaultScene();
-        break;
+		case Qt::Key_Space:
+			defaultScene();
+			break;
 
-    case Qt::Key_Escape:
-        this->close();
-        break;
-    }
+		case Qt::Key_Escape:
+			this->close();
+			break;
+	}
 
     updateGL();
 }
 
 void Cscene3D::scale_plus()
 {
-    if(nSca < 2.5f)
-    {
+	if ( nSca < 2.5f ) {
         nSca = nSca * 1.1f;
         update_light();
     }

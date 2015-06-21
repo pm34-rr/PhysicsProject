@@ -2,6 +2,7 @@
 
 #include "Plot.h"
 #include "WindowDevelopers.h"
+#include "manual.h"
 
 AppMenu::AppMenu( QWidget * parent ):
 	QMenuBar( parent )
@@ -21,7 +22,7 @@ AppMenu::AppMenu( QWidget * parent ):
 
 	addMenu( graphicsMenu );
 
-	QAction * about_experiment = new QAction( tr( "About experiment" ), aboutMenu );
+	QAction * about_experiment = new QAction( tr( "Manual" ), aboutMenu );
 	QAction * about_developers = new QAction( tr( "About developers" ), aboutMenu );
 	aboutMenu->addAction( about_experiment );
 	aboutMenu->addAction( about_developers );
@@ -59,7 +60,8 @@ void AppMenu::showGraphVx()
 
 void AppMenu::showAboutExperiment()
 {
-
+	Manual * manual = new Manual;
+	manual->show();
 }
 
 void AppMenu::showAboutDevelopers()

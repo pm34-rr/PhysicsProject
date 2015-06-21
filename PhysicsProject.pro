@@ -65,7 +65,8 @@ SOURCES += src/main.cpp \
     src/AppMenu.cpp \
     src/Plot.cpp \
     src/WindowDevelopers.cpp \
-    src/SplashScreen.cpp
+    src/SplashScreen.cpp \
+    src/manual.cpp
 
 HEADERS += src/mainwindow.h \
            src/cscene3d.h \
@@ -92,10 +93,12 @@ HEADERS += src/mainwindow.h \
     src/AppMenu.h \
     src/Plot.h \
     src/WindowDevelopers.h \
-    src/SplashScreen.h
+    src/SplashScreen.h \
+    src/manual.h
 
 FORMS   += \
-           src/mainwindow.ui
+	src/mainwindow.ui \
+	src/manual.ui
 
 win32 {
   RC_FILE += src/resources/icon.rc

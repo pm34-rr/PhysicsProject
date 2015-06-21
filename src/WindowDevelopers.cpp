@@ -13,6 +13,8 @@ WindowDevelopers::WindowDevelopers( QWidget * parent ):
 	setPalette( pal );
 	setAutoFillBackground( true );
 
+	setWindowTitle( tr( "Virtual labratoty: free oscillations of connected spring pendulums" ) );
+
 
 	QLabel * students = new QLabel( tr( "Students" ), this );
 	students->setStyleSheet( "font: 20px bold;" );

@@ -12,6 +12,8 @@ int main( int argc, char * argv[] )
 
 	QApplication app( argc, argv );
 
+	app.setApplicationName( app.translate( "QString", "Virtual labratoty: free oscillations of connected spring pendulums" ) );
+
 	QTranslator myTranslator;
 	myTranslator.load( ":/PhysicsProject_ru.qm" );
 	app.installTranslator( &myTranslator );

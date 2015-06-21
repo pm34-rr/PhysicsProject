@@ -2,9 +2,13 @@
     <qresource prefix="/mres">
         <file>ball.ico</file>
         <file>NSTU_Logo.png</file>
+        <file>manual.png</file>
+        <file>manual2.png</file>
     </qresource>
     <qresource prefix="/">
-        <file>PhysicsProject_ru.qm</file>
         <file>Splash.png</file>
+        <file>manual.png</file>
+        <file>manual2.png</file>
+        <file>PhysicsProject_ru.qm</file>
     </qresource>
 </RCC>
