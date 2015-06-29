@@ -18,13 +18,11 @@ SplashScreen::~SplashScreen()
 {
 }
 
-void SplashScreen::keyPressEvent( QKeyEvent *ev )
+void SplashScreen::keyPressEvent( QKeyEvent * )
 {
-	if ( ev->key() == Qt::Key_Escape ) {
-		close();
-		m_timer.stop();
-		createMainWindow();
-	}
+    close();
+    m_timer.stop();
+    createMainWindow();
 }
 
 void SplashScreen::startTimer()

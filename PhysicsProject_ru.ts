@@ -24,13 +24,12 @@
         <translation>Зависимость V от t</translation>
     </message>
     <message>
-        <location filename="src/AppMenu.cpp" line="15"/>
         <source>Dependence V from X</source>
         <oldsource>Dependence X from V</oldsource>
-        <translation>Зависимость V от X</translation>
+        <translation type="vanished">Зависимость V от X</translation>
     </message>
     <message>
-        <location filename="src/AppMenu.cpp" line="25"/>
+        <location filename="src/AppMenu.cpp" line="22"/>
         <source>Manual</source>
         <translation>Руководство пользователя</translation>
     </message>
@@ -40,7 +39,7 @@
         <translation type="vanished">Эксперимент</translation>
     </message>
     <message>
-        <location filename="src/AppMenu.cpp" line="26"/>
+        <location filename="src/AppMenu.cpp" line="23"/>
         <source>About developers</source>
         <translation>Разработчики</translation>
     </message>
@@ -78,33 +77,44 @@
         <translation>График зависимости V от t</translation>
     </message>
     <message>
-        <location filename="src/Plot.cpp" line="126"/>
+        <location filename="src/Plot.cpp" line="248"/>
+        <location filename="src/Plot.cpp" line="256"/>
+        <source>m</source>
+        <translation>м</translation>
+    </message>
+    <message>
+        <location filename="src/Plot.cpp" line="250"/>
+        <source>m/s</source>
+        <translation>м/с</translation>
+    </message>
+    <message>
+        <location filename="src/Plot.cpp" line="258"/>
+        <source>s</source>
+        <translation>с</translation>
+    </message>
+    <message>
         <source>Plots dependence V from X</source>
-        <translation>График зависимости V от X</translation>
+        <translation type="vanished">График зависимости V от X</translation>
     </message>
     <message>
-        <location filename="src/Plot.cpp" line="253"/>
-        <location filename="src/Plot.cpp" line="261"/>
         <source>[m]</source>
-        <translation>[м]</translation>
+        <translation type="vanished">[м]</translation>
     </message>
     <message>
-        <location filename="src/Plot.cpp" line="255"/>
         <source>[m/s]</source>
-        <translation>[м/с]</translation>
+        <translation type="vanished">[м/с]</translation>
     </message>
     <message>
-        <location filename="src/Plot.cpp" line="263"/>
         <source>[s]</source>
-        <translation>[с]</translation>
+        <translation type="vanished">[с]</translation>
     </message>
     <message>
-        <location filename="src/Plot.cpp" line="385"/>
+        <location filename="src/Plot.cpp" line="368"/>
         <source>Number</source>
         <translation>Номер</translation>
     </message>
     <message>
-        <location filename="src/Plot.cpp" line="389"/>
+        <location filename="src/Plot.cpp" line="372"/>
         <source>Color</source>
         <translation>Цвет</translation>
     </message>

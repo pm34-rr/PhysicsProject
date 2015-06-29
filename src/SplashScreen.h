@@ -15,7 +15,7 @@ public:
 	void createMainWindow();
 
 protected:
-	void keyPressEvent( QKeyEvent *ev );
+    void keyPressEvent( QKeyEvent * );
 
 private:
 	QTimer m_timer;

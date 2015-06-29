@@ -245,17 +245,17 @@ void Graph::drawPlot( int x, int y, int number )
 	painter.setFont( font );
 	QString addition;
 	if ( !QString::compare( _depY, "X" ))
-		addition = tr("[m]");
+        addition = tr("m");
 	else
-		addition = tr("[m/s]");
+        addition = tr("m/s");
 	painter.drawText( pt1, _depY + ", " + addition );
 
 	pt1.setX( x + WIDTH - RIGHT_PADDING + 3 );
 	pt1.setY( mid + yStep * (HALF_Y - 1) + 5 );
 	if ( !QString::compare( _depX, "X" ) )
-		addition = tr("[m]");
+        addition = tr("m");
 	else
-		addition = tr("[s]");
+        addition = tr("s");
 	painter.drawText( pt1, _depX + + ", " + addition );
 
 	pt1.setX( x + PADDING_TEXT );
