@@ -169,8 +169,9 @@
     </message>
     <message>
         <location filename="src/WindowDevelopers.cpp" line="47"/>
-        <source>Baranov Alexandr Viktorovich, Candidate of Physical and Mathematical Sciences, Associate Professor</source>
-        <translation>Баранов Александр Викторович, кандидат физико-математических наук, доцент</translation>
+        <source>Baranov Alexandr Viktorovich, Candidate of Physical and Mathematical Sciences, Associate Professor of &quot;General Physics&quot; NSTU</source>
+        <oldsource>Baranov Alexandr Viktorovich, Candidate of Physical and Mathematical Sciences, Associate Professor of General Physics</oldsource>
+        <translation>Баранов Александр Викторович, кандидат физико-математических наук, доцент кафедры &quot;Общей физики&quot; НГТУ</translation>
     </message>
     <message>
         <source>Baranov Alexandr Viktorovich</source>

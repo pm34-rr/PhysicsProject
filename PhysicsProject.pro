@@ -43,7 +43,6 @@ TRANSLATIONS += \
 SOURCES += src/main.cpp \
            src/mainwindow.cpp \
            src/cscene3d.cpp \
-           src/caction.cpp \
            src/cmodel.cpp \
            src/cmilkshapemodel.cpp \
            src/Storage.cpp \
