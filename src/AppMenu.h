@@ -12,7 +12,6 @@ public:
 
 	void showGraphXt();
 	void showGraphVt();
-	void showGraphVx();
 
 	void showAboutExperiment();
 	void showAboutDevelopers();

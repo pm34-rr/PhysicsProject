@@ -70,7 +70,7 @@ Graph::Graph( QWidget * parent, const QString & dependenceType ):
 	double dataYMax = 0;
 	double dataYMin = 0;
 	_depX = "t";
-	if ( !QString::compare( dependenceType, "xt") || !QString::compare( dependenceType, "vx" ) ) {
+    if ( !QString::compare( dependenceType, "xt" )  ) {
 		setWindowTitle( tr( "Plots dependence X from t" ) );
 
 		_X.resize( countOfBodies, vd( _countOfFuncPoints, 0 ) );
@@ -98,7 +98,7 @@ Graph::Graph( QWidget * parent, const QString & dependenceType ):
 		else
 			_gridStepY = dataYMax / 10.0 ;
 	}
-	if ( !QString::compare( dependenceType, "vt" ) || !QString::compare( dependenceType, "vx" ) ) {
+    if ( !QString::compare( dependenceType, "vt" ) ) {
 		setWindowTitle( tr( "Plots dependence V from t" ) );
 		_V.resize( countOfBodies, vd( _countOfFuncPoints, 0 ) );
 		_depY = "V";
@@ -121,11 +121,6 @@ Graph::Graph( QWidget * parent, const QString & dependenceType ):
 			for ( j = 0; j < countOfBodies; ++j )
 				_V[j][i] /= dataYMax;
 		_gridStepY = dataYMax / 10.0;
-	}
-	if ( !QString::compare( dependenceType, "vx" ) ) {
-		setWindowTitle( tr( "Plots dependence V from X" ) );
-		_depX = "X";
-		_depY = "V";
 	}
 }
 
@@ -316,18 +311,6 @@ void Graph::drawPlot( int x, int y, int number )
 			painter.drawLine( pt1, pt2 );
 		}
 
-	}
-	else {
-			pen.setColor( _colors[number] );
-			painter.setPen( pen );
-			pt2.setX( x + LEFT_PADDING );
-			pt2.setY( mid + _V[number][0] * MAX_Y );
-			for ( i = 1; i < _countOfFuncPoints; ++i ) {
-				pt1 = pt2;
-				pt2.setX( x + LEFT_PADDING + timeStep * i );
-				pt2.setY( mid + _V[number][i] * MAX_Y );
-				painter.drawLine( pt1, pt2 );
-			}
 	}
 }
 

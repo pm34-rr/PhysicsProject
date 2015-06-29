@@ -12,13 +12,10 @@ AppMenu::AppMenu( QWidget * parent ):
 
 	QAction * graphics_xt = new QAction( tr( "Dependence X from t" ), graphicsMenu );
 	QAction * graphics_vt = new QAction( tr( "Dependence V from t" ), graphicsMenu );
-	QAction * graphics_vx = new QAction( tr( "Dependence V from X" ), graphicsMenu );
 	graphicsMenu->addAction( graphics_xt );
 	graphicsMenu->addAction( graphics_vt );
-	graphicsMenu->addAction( graphics_vx );
 	connect( graphics_xt, &QAction::triggered, this, &AppMenu::showGraphXt );
 	connect( graphics_vt, &QAction::triggered, this, &AppMenu::showGraphVt );
-	connect( graphics_vx, &QAction::triggered, this, &AppMenu::showGraphVx );
 
 	addMenu( graphicsMenu );
 
@@ -48,13 +45,6 @@ void AppMenu::showGraphVt()
 {
 	QWidget * prnt = dynamic_cast<QWidget*>( parent() );
 	Graph * graph = new Graph( prnt, "vt" );
-	graph->show();
-}
-
-void AppMenu::showGraphVx()
-{
-	QWidget * prnt = dynamic_cast<QWidget*>( parent() );
-	Graph * graph = new Graph( prnt, "vx" );
 	graph->show();
 }
 
